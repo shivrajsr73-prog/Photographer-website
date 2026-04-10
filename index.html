@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding 3D Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body>
+<nav class="top-nav">
+  <a href="#home">Home</a>
+  <a href="#contact">Contact Us</a>
+  <a href="#portfolio">Portfolio</a>
+  <a href="#about">About Us</a>
+</nav>
+<div class="hero-booking-wrap">
+  <div class="shared-backdrop">
+    <div class="shared-backdrop-layer shared-backdrop-primary"></div>
+    <div class="shared-backdrop-layer shared-backdrop-secondary"></div>
+  </div>
+
+  <section class="hero" id="home">
+    <h1>Make A Wonderful Story For Your Wedding</h1>
+    <button type="button" onclick="location.href='#contact'">Contact Us</button>
+  </section>
+
+  <section class="booking" id="contact">
+    <div class="left tilt-card">
+      <p class="section-tag">Contact Us</p>
+      <h2>Let's Plan Your Dream Wedding Story</h2>
+      <p>Share your event details and we will help design a cinematic wedding experience with a premium 3D presentation feel.</p>
+      <div class="contact-points">
+        <span>Luxury wedding visuals</span>
+        <span>Custom event concepts</span>
+        <span>Fast response within 24 hours</span>
+      </div>
+    </div>
+    <div class="right tilt-card">
+      <form class="contact-form">
+        <input name="name" placeholder="Your Name">
+        <input name="email" placeholder="Email Address">
+        <input name="phone" placeholder="Phone Number">
+        <div class="date-picker">
+          <label class="budget-label" for="wedding-date-display">Event Date</label>
+          <input id="wedding-date-display" class="date-display" placeholder="Choose your event date" readonly>
+          <input id="wedding-date-value" type="hidden" name="weddingDate">
+          <div class="date-picker-popup" hidden>
+            <div class="date-picker-header">
+              <button type="button" class="date-nav" data-direction="prev" aria-label="Previous month">&lsaquo;</button>
+              <div class="date-picker-title"></div>
+              <button type="button" class="date-nav" data-direction="next" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <div class="date-weekdays">
+              <span>Su</span>
+              <span>Mo</span>
+              <span>Tu</span>
+              <span>We</span>
+              <span>Th</span>
+              <span>Fr</span>
+              <span>Sa</span>
+            </div>
+            <div class="date-grid"></div>
+            <div class="date-picker-footer">
+              <button type="button" class="date-footer-btn" data-action="clear">Clear</button>
+              <button type="button" class="date-footer-btn" data-action="today">Today</button>
+            </div>
+          </div>
+        </div>
+        <details class="event-picker">
+          <summary>
+            <span class="event-picker-label">Type of Event</span>
+            <span class="event-picker-value">Click to choose</span>
+          </summary>
+          <div class="event-options">
+            <button type="button" class="event-option" data-value="Wedding Photography">Wedding Photography</button>
+            <button type="button" class="event-option" data-value="Haldi and Mahendi Photography">Haldi and Mahendi Photography</button>
+            <button type="button" class="event-option" data-value="Pre-Wedding Photography">Pre-Wedding Photography</button>
+            <button type="button" class="event-option" data-value="Baby Photoshoot">Baby Photoshoot</button>
+            <button type="button" class="event-option" data-value="Etc.">Etc.</button>
+          </div>
+          <input class="custom-event-input" name="customEventType" placeholder="Write event type" hidden>
+        </details>
+        <div class="budget-picker">
+          <details class="budget-details">
+            <summary>
+              <span class="budget-label">Estimated Budget</span>
+              <span class="budget-value">Choose budget</span>
+            </summary>
+            <div class="budget-options">
+              <button type="button" class="budget-option" data-value="20,000">20,000</button>
+              <button type="button" class="budget-option" data-value="25,000">25,000</button>
+              <button type="button" class="budget-option" data-value="30,000">30,000</button>
+              <button type="button" class="budget-option" data-value="35,000">35,000</button>
+              <button type="button" class="budget-option" data-value="40,000">40,000</button>
+              <button type="button" class="budget-option" data-value="45,000">45,000</button>
+              <button type="button" class="budget-option" data-value="50,000">50,000</button>
+              <button type="button" class="budget-option" data-value="More Than 50,000">More Than 50,000</button>
+              <button type="button" class="budget-option" data-value="Etc.">Etc.</button>
+            </div>
+          </details>
+          <input class="custom-budget-input" name="customBudget" placeholder="Write your budget" hidden>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<section class="gallery" id="portfolio">
+  <div class="gallery-scene" aria-label="Hanging wedding portfolio">
+    <div class="gallery-glow gallery-glow-left"></div>
+    <div class="gallery-glow gallery-glow-right"></div>
+
+    <div class="hanging-column hanging-column-left" data-column="left">
+      <svg class="column-rope" viewBox="0 0 40 980" preserveAspectRatio="none" aria-hidden="true">
+        <path class="column-rope-path" d="M20 0 C 20 240, 20 520, 20 980"></path>
+      </svg>
+
+      <article class="column-photo depth-back column-photo-top" data-depth="0.66" data-image="image1.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="column-photo depth-mid column-photo-middle" data-depth="0.84" data-image="image2.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="column-photo depth-back column-photo-bottom" data-depth="0.7" data-image="image1.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="column-photo depth-mid column-photo-lower" data-depth="0.78" data-image="image2.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <div class="chain-charm column-charm" aria-hidden="true">
+        <span class="eye eye-left"><span class="pupil"></span></span>
+        <span class="eye eye-right"><span class="pupil"></span></span>
+      </div>
+    </div>
+
+    <div class="gallery-center">
+      <article class="featured-photo depth-front" data-image="image1.png.png">
+        <svg class="featured-rope" viewBox="0 0 40 260" preserveAspectRatio="none" aria-hidden="true">
+          <path class="featured-rope-path" d="M20 0 C 20 80, 20 180, 20 260"></path>
+        </svg>
+        <div class="featured-photo-wrap">
+          <div class="featured-hook" aria-hidden="true"></div>
+          <div class="photo-card featured-card">
+            <div class="photo-image" role="img" aria-label="Featured event portfolio moment"></div>
+          </div>
+        </div>
+        <div class="chain-charm featured-charm" aria-hidden="true">
+          <span class="eye eye-left"><span class="pupil"></span></span>
+          <span class="eye eye-right"><span class="pupil"></span></span>
+        </div>
+      </article>
+
+      <div class="gallery-copy">
+        <p class="section-tag">Portfolio</p>
+        <h2>Designing clarity.<br>Building experience.<br>Delivering impact.</h2>
+        <p class="gallery-intro">A dark, cinematic wedding portfolio where every memory feels suspended in time.</p>
+      </div>
+    </div>
+
+    <div class="hanging-column hanging-column-right" data-column="right">
+      <svg class="column-rope" viewBox="0 0 40 980" preserveAspectRatio="none" aria-hidden="true">
+        <path class="column-rope-path" d="M20 0 C 20 240, 20 520, 20 980"></path>
+      </svg>
+
+      <article class="column-photo depth-back column-photo-top" data-depth="0.66" data-image="image2.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="column-photo depth-mid column-photo-middle" data-depth="0.84" data-image="image1.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="column-photo depth-back column-photo-bottom" data-depth="0.7" data-image="image2.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="column-photo depth-mid column-photo-lower" data-depth="0.78" data-image="image1.png.png">
+        <div class="column-photo-wrap">
+          <div class="column-hook" aria-hidden="true"></div>
+          <div class="photo-card">
+            <div class="photo-image" role="img" aria-label="Event portfolio moment"></div>
+          </div>
+        </div>
+      </article>
+
+      <div class="chain-charm column-charm" aria-hidden="true">
+        <span class="eye eye-left"><span class="pupil"></span></span>
+        <span class="eye eye-right"><span class="pupil"></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="stories-gallery" id="wedding-gallery">
+  <div class="stories-gallery-copy">
+    <p class="section-tag">Gallery</p>
+    <h2>Our Wedding Gallery</h2>
+    <p>Moments framed with warmth, depth, and a cinematic luxury finish.</p>
+  </div>
+
+  <div class="stories-gallery-grid">
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 1">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 1" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 2">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 2" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 3">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 3" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 4">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 4" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 5">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 5" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 6">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 6" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 7">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 7" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 8">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 8" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 9">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 9" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 10">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 10" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 11">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 11" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 12">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 12" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 13">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 13" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 14">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 14" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 15">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 15" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 16">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 16" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 17">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 17" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 18">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 18" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 19">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 19" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 20">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 20" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 21">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 21" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 22">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 22" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 23">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 23" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 24">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 24" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 25">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 25" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 26">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 26" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 27">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 27" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 28">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 28" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 29">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 29" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 30">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 30" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image1.png.png" aria-label="Open wedding gallery image 31">
+      <span class="story-card-frame">
+        <img src="image1.png.png" alt="Wedding story image 31" loading="lazy">
+      </span>
+    </button>
+    <button class="story-card reveal-card is-hidden-card" type="button" data-lightbox-image="image2.png.png" aria-label="Open wedding gallery image 32">
+      <span class="story-card-frame">
+        <img src="image2.png.png" alt="Wedding story image 32" loading="lazy">
+      </span>
+    </button>
+  </div>
+
+  <div class="stories-gallery-actions">
+    <button class="load-more-btn" type="button">Load More Stories</button>
+  </div>
+</section>
+
+<section class="about-page" id="about">
+  <div class="about-shell">
+    <div class="about-hero">
+      <div class="about-hero-bg" aria-hidden="true"></div>
+      <div class="about-particles" aria-hidden="true">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <div class="about-hero-content about-reveal">
+        <p class="about-eyebrow">Our Story</p>
+        <h2 class="about-headline">Capturing wedding moments with warmth, detail, and heart.</h2>
+        <p class="about-subline">From intimate rituals to grand celebrations, every frame is planned to feel timeless and personal.</p>
+      </div>
+      <div class="about-scroll-hint" aria-hidden="true"><span></span></div>
+    </div>
+
+    <div class="about-profile">
+      <div class="about-profile-img-wrap about-reveal">
+        <img src="image1.png.png" alt="Preet wedding photographer portrait" class="about-profile-img" loading="lazy">
+        <div class="about-profile-glow" aria-hidden="true"></div>
+      </div>
+      <div class="about-profile-text about-reveal">
+        <p class="about-eyebrow">Meet The Artist</p>
+        <h2 class="about-profile-name">Preet</h2>
+        <p class="about-profile-role">Wedding Photographer and Cinematic Storyteller</p>
+        <p class="about-profile-bio">Hi, I'm Preet. I focus on natural emotions, elegant portraits, and storytelling that lets your day feel real even years later. The goal is simple: beautiful photos that still feel like you.</p>
+        <div class="about-profile-points">
+          <span>Natural direction</span>
+          <span>Emotion-first storytelling</span>
+          <span>Fast and friendly coordination</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-stats">
+      <div class="about-stat-card about-reveal">
+        <div class="about-stat-num-wrap"><span class="about-stat-num" data-target="100">0</span><span class="about-stat-plus">+</span></div>
+        <p class="about-stat-label">Weddings Covered</p>
+      </div>
+      <div class="about-stat-card about-reveal">
+        <div class="about-stat-num-wrap"><span class="about-stat-num" data-target="5">0</span><span class="about-stat-plus">+</span></div>
+        <p class="about-stat-label">Years Experience</p>
+      </div>
+      <div class="about-stat-card about-reveal">
+        <div class="about-stat-num-wrap"><span class="about-stat-num" data-target="1000">0</span><span class="about-stat-plus">+</span></div>
+        <p class="about-stat-label">Happy Clients</p>
+      </div>
+    </div>
+
+    <div class="about-contact">
+      <div class="about-contact-copy">
+        <p class="about-eyebrow about-reveal">Get In Touch</p>
+        <h2 class="about-section-title about-reveal">Let's create your story with a calm and premium experience in Delhi and beyond.</h2>
+      </div>
+      <div class="about-contact-cards">
+        <div class="about-contact-card about-reveal">
+          <span class="about-contact-icon">Call</span>
+          <p class="about-contact-label">Phone</p>
+          <p class="about-contact-val">+91 93169 72233</p>
+        </div>
+        <div class="about-contact-card about-reveal">
+          <span class="about-contact-icon">Mail</span>
+          <p class="about-contact-label">Email</p>
+          <p class="about-contact-val">Example1243@gmail.com</p>
+        </div>
+        <div class="about-contact-card about-reveal">
+          <span class="about-contact-icon">Visit</span>
+          <p class="about-contact-label">Location</p>
+          <p class="about-contact-val">Rajouri Garden, New Delhi, India</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-gallery">
+      <div class="about-gallery-copy">
+        <p class="about-eyebrow about-reveal">Portfolio Glimpse</p>
+        <h2 class="about-gallery-title about-reveal">A few frames from celebrations we have loved capturing.</h2>
+      </div>
+      <div class="about-gallery-slider">
+        <button class="about-gallery-nav about-gallery-prev" type="button" aria-label="Show previous gallery photos">‹</button>
+        <div class="about-gallery-strip">
+          <img src="image1.png.png" alt="Wedding moment 1" loading="lazy">
+          <img src="image2.png.png" alt="Wedding moment 2" loading="lazy">
+          <img src="image1.png.png" alt="Wedding moment 3" loading="lazy">
+          <img src="image2.png.png" alt="Wedding moment 4" loading="lazy">
+          <img src="image1.png.png" alt="Wedding moment 5" loading="lazy">
+          <img src="image2.png.png" alt="Wedding moment 6" loading="lazy">
+        </div>
+        <button class="about-gallery-nav about-gallery-next" type="button" aria-label="Show next gallery photos">›</button>
+      </div>
+    </div>
+
+    <div class="about-cta about-reveal">
+      <h2 class="about-cta-headline">Ready to plan your wedding story?</h2>
+      <p class="about-cta-sub">Tell us your date, event type, and vision. We will help shape something graceful and memorable.</p>
+      <a href="#contact" class="about-cta-btn">Book Your Story</a>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" hidden>
+  <button class="lightbox-close" type="button" aria-label="Close gallery image">&times;</button>
+  <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous gallery image">&#10094;</button>
+  <button class="lightbox-nav lightbox-next" type="button" aria-label="Next gallery image">&#10095;</button>
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Wedding gallery preview">
+    <img class="lightbox-image" alt="Expanded wedding gallery image">
+  </div>
+</div>
+
+<div class="photographer-flash" aria-hidden="true"></div>
+<div class="photographer-runner" aria-hidden="true">
+  <div class="photographer-runner-stage">
+    <img class="photographer-runner-img" src="photographer.png" alt="">
+  </div>
+</div>
+
+<script src="script.js?v=5"></script>
+</body>
+</html>
