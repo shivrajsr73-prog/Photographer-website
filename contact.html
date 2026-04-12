@@ -11,13 +11,19 @@
 </head>
 <body class="contact-page">
 <nav class="top-nav">
-  <a href="index.html">Home</a>
-  <a href="contact.html">Contact Us</a>
-  <a href="portfolio.html">Portfolio</a>
-  <a href="about.html">About Us</a>
+  <a class="nav-logo" href="index.html" aria-label="Wedding Home">
+    <img class="logo-mark" src="images/logo.png" alt="logo">
+  </a>
+  <div class="top-nav-links">
+    <a href="index.html">Home</a>
+    <a href="contact.html">Contact Us</a>
+    <a href="portfolio.html">Portfolio</a>
+    <a href="about.html">About Us</a>
+  </div>
 </nav>
 <section class="contact-intro reveal-on-scroll">
   <div class="contact-intro-inner">
+    <img class="logo-mark logo-mark--section" src="images/logo.png" alt="logo">
     <p class="section-tag">Contact</p>
     <h1>Let us craft a calm, luxury wedding experience.</h1>
     <p>Share your story and we will curate a visual plan that feels refined and timeless.</p>
@@ -30,8 +36,8 @@
   </div>
 
   <section class="hero" id="contact">
-    <h1>Let's Plan Your Dream Wedding Story</h1>
-    <button type="button" onclick="location.href='#booking'">Start Here</button>
+    <h1 class="hero-title">Let's Plan Your Dream Wedding Story</h1>
+    <button class="hero-cta" type="button" onclick="location.href='#booking'">Start Here</button>
   </section>
 
   <section class="contact-info-card reveal-on-scroll">
@@ -71,14 +77,14 @@
     </div>
     <div class="right tilt-card">
       <form class="contact-form">
-        <div class="input-with-icon" data-icon="N">
-          <input name="name" placeholder="Your Name">
+        <div class="input-field">
+          <input name="name" type="text" placeholder="Your Name" autocomplete="name">
         </div>
-        <div class="input-with-icon" data-icon="E">
-          <input name="email" placeholder="Email Address">
+        <div class="input-field">
+          <input name="email" type="email" placeholder="Email Address" autocomplete="email">
         </div>
-        <div class="input-with-icon" data-icon="P">
-          <input name="phone" placeholder="Phone Number">
+        <div class="input-field">
+          <input name="phone" type="tel" placeholder="Phone Number" autocomplete="tel">
         </div>
         <div class="date-picker">
           <label class="budget-label" for="wedding-date-display">Event Date</label>
@@ -119,6 +125,9 @@
             <button type="button" class="event-option" data-value="Etc.">Etc.</button>
           </div>
           <input class="custom-event-input" name="customEventType" placeholder="Write event type" hidden>
+          <div class="picker-actions">
+            <button type="button" class="picker-ok">OK</button>
+          </div>
         </details>
         <div class="budget-picker">
           <details class="budget-details">
@@ -137,8 +146,11 @@
               <button type="button" class="budget-option" data-value="More Than 50,000">More Than 50,000</button>
               <button type="button" class="budget-option" data-value="Etc.">Etc.</button>
             </div>
+            <input class="custom-budget-input" name="customBudget" placeholder="Write your budget" hidden>
+            <div class="picker-actions">
+              <button type="button" class="picker-ok">OK</button>
+            </div>
           </details>
-          <input class="custom-budget-input" name="customBudget" placeholder="Write your budget" hidden>
         </div>
         <button type="submit">Submit</button>
       </form>
@@ -359,6 +371,16 @@
     <a href="#booking" class="contact-cta-btn">Book Now</a>
   </div>
 </section>
+
+<div class="lightbox" hidden>
+  <button class="lightbox-close" type="button" aria-label="Close gallery image">&times;</button>
+  <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous gallery image">&#10094;</button>
+  <button class="lightbox-nav lightbox-next" type="button" aria-label="Next gallery image">&#10095;</button>
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Wedding gallery preview">
+    <img class="lightbox-image" alt="Expanded wedding gallery image">
+  </div>
+</div>
 
 <script src="script.js?v=7"></script>
 </body>
