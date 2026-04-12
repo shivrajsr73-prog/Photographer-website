@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us | Wedding 3D Website</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=12">
+</head>
+<body class="contact-page">
+<nav class="top-nav">
+  <a href="index.html">Home</a>
+  <a href="contact.html">Contact Us</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="about.html">About Us</a>
+</nav>
+<section class="contact-intro reveal-on-scroll">
+  <div class="contact-intro-inner">
+    <p class="section-tag">Contact</p>
+    <h1>Let us craft a calm, luxury wedding experience.</h1>
+    <p>Share your story and we will curate a visual plan that feels refined and timeless.</p>
+  </div>
+</section>
+<div class="hero-booking-wrap">
+  <div class="shared-backdrop">
+    <div class="shared-backdrop-layer shared-backdrop-primary"></div>
+    <div class="shared-backdrop-layer shared-backdrop-secondary"></div>
+  </div>
+
+  <section class="hero" id="contact">
+    <h1>Let's Plan Your Dream Wedding Story</h1>
+    <button type="button" onclick="location.href='#booking'">Start Here</button>
+  </section>
+
+  <section class="contact-info-card reveal-on-scroll">
+    <div class="contact-info-card-inner">
+      <div>
+        <p class="section-tag">Reach Us</p>
+        <h2>We reply within 24 hours.</h2>
+        <p>Luxury wedding coverage with a transparent process and curated deliverables.</p>
+      </div>
+      <div class="contact-info-card-grid">
+        <div>
+          <h4>Phone</h4>
+          <p>+91 93169 72233</p>
+        </div>
+        <div>
+          <h4>Email</h4>
+          <p>Example1243@gmail.com</p>
+        </div>
+        <div>
+          <h4>Location</h4>
+          <p>Rajouri Garden, New Delhi, India</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="booking" id="booking">
+    <div class="left tilt-card">
+      <p class="section-tag">Contact Us</p>
+      <h2>Let's Plan Your Dream Wedding Story</h2>
+      <p>Share your event details and we will help design a cinematic wedding experience with a premium 3D presentation feel.</p>
+      <div class="contact-points">
+        <span>Luxury wedding visuals</span>
+        <span>Custom event concepts</span>
+        <span>Fast response within 24 hours</span>
+      </div>
+    </div>
+    <div class="right tilt-card">
+      <form class="contact-form">
+        <div class="input-with-icon" data-icon="N">
+          <input name="name" placeholder="Your Name">
+        </div>
+        <div class="input-with-icon" data-icon="E">
+          <input name="email" placeholder="Email Address">
+        </div>
+        <div class="input-with-icon" data-icon="P">
+          <input name="phone" placeholder="Phone Number">
+        </div>
+        <div class="date-picker">
+          <label class="budget-label" for="wedding-date-display">Event Date</label>
+          <input id="wedding-date-display" class="date-display" placeholder="Choose your event date" readonly>
+          <input id="wedding-date-value" type="hidden" name="weddingDate">
+          <div class="date-picker-popup" hidden>
+            <div class="date-picker-header">
+              <button type="button" class="date-nav" data-direction="prev" aria-label="Previous month">&lsaquo;</button>
+              <div class="date-picker-title"></div>
+              <button type="button" class="date-nav" data-direction="next" aria-label="Next month">&rsaquo;</button>
+            </div>
+            <div class="date-weekdays">
+              <span>Su</span>
+              <span>Mo</span>
+              <span>Tu</span>
+              <span>We</span>
+              <span>Th</span>
+              <span>Fr</span>
+              <span>Sa</span>
+            </div>
+            <div class="date-grid"></div>
+            <div class="date-picker-footer">
+              <button type="button" class="date-footer-btn" data-action="clear">Clear</button>
+              <button type="button" class="date-footer-btn" data-action="today">Today</button>
+            </div>
+          </div>
+        </div>
+        <details class="event-picker">
+          <summary>
+            <span class="event-picker-label">Type of Event</span>
+            <span class="event-picker-value">Click to choose</span>
+          </summary>
+          <div class="event-options">
+            <button type="button" class="event-option" data-value="Wedding Photography">Wedding Photography</button>
+            <button type="button" class="event-option" data-value="Haldi and Mahendi Photography">Haldi and Mahendi Photography</button>
+            <button type="button" class="event-option" data-value="Pre-Wedding Photography">Pre-Wedding Photography</button>
+            <button type="button" class="event-option" data-value="Baby Photoshoot">Baby Photoshoot</button>
+            <button type="button" class="event-option" data-value="Etc.">Etc.</button>
+          </div>
+          <input class="custom-event-input" name="customEventType" placeholder="Write event type" hidden>
+        </details>
+        <div class="budget-picker">
+          <details class="budget-details">
+            <summary>
+              <span class="budget-label">Estimated Budget</span>
+              <span class="budget-value">Choose budget</span>
+            </summary>
+            <div class="budget-options">
+              <button type="button" class="budget-option" data-value="20,000">20,000</button>
+              <button type="button" class="budget-option" data-value="25,000">25,000</button>
+              <button type="button" class="budget-option" data-value="30,000">30,000</button>
+              <button type="button" class="budget-option" data-value="35,000">35,000</button>
+              <button type="button" class="budget-option" data-value="40,000">40,000</button>
+              <button type="button" class="budget-option" data-value="45,000">45,000</button>
+              <button type="button" class="budget-option" data-value="50,000">50,000</button>
+              <button type="button" class="budget-option" data-value="More Than 50,000">More Than 50,000</button>
+              <button type="button" class="budget-option" data-value="Etc.">Etc.</button>
+            </div>
+          </details>
+          <input class="custom-budget-input" name="customBudget" placeholder="Write your budget" hidden>
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<section class="contact-why home-section reveal-on-scroll">
+  <div class="home-section-inner">
+    <p class="section-tag">Why Choose Us</p>
+    <h2>Luxury coverage with a calm, guided experience.</h2>
+    <div class="contact-why-grid">
+      <div class="contact-why-card">
+        <h3>Creative Direction</h3>
+        <p>We help you look natural while keeping every frame premium.</p>
+      </div>
+      <div class="contact-why-card">
+        <h3>Fast Turnaround</h3>
+        <p>Highlights within days and full delivery on a clear timeline.</p>
+      </div>
+      <div class="contact-why-card">
+        <h3>Detail Obsessed</h3>
+        <p>We capture rituals, emotions, and elegance in equal measure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-info home-section reveal-on-scroll">
+  <div class="home-section-inner contact-info-inner">
+    <div>
+      <p class="section-tag">Contact Info</p>
+      <h2>We are happy to help you plan your date.</h2>
+    </div>
+    <div class="contact-info-grid">
+      <div>
+        <h4>Phone</h4>
+        <p>+91 93169 72233</p>
+      </div>
+      <div>
+        <h4>Email</h4>
+        <p>Example1243@gmail.com</p>
+      </div>
+      <div>
+        <h4>Location</h4>
+        <p>Rajouri Garden, New Delhi, India</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-faq home-section reveal-on-scroll">
+  <div class="home-section-inner">
+    <p class="section-tag">FAQ</p>
+    <h2>Answers to the most common questions.</h2>
+    <div class="contact-faq-grid">
+      <div class="contact-faq-card">
+        <h4>How early should we book?</h4>
+        <p>Popular dates get booked 4–8 months in advance. Reach out early.</p>
+      </div>
+      <div class="contact-faq-card">
+        <h4>Do you travel for weddings?</h4>
+        <p>Yes. We cover destination weddings across India and abroad.</p>
+      </div>
+      <div class="contact-faq-card">
+        <h4>Can we customize packages?</h4>
+        <p>Absolutely. We tailor coverage based on your events and vision.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section class="contact-gallery reveal-on-scroll">
+  <div class="contact-gallery-inner">
+    <p class="section-tag">Gallery</p>
+    <h2>Moments crafted with warmth and elegance.</h2>
+    <div class="contact-gallery-grid">
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 1" loading="lazy">
+        <span>Haldi Celebration</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 2" loading="lazy">
+        <span>Wedding Portraits</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 3" loading="lazy">
+        <span>Couple Story</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 4" loading="lazy">
+        <span>Reception Details</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 5" loading="lazy">
+        <span>Mandap Details</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 6" loading="lazy">
+        <span>Bridal Portrait</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 7" loading="lazy">
+        <span>Golden Hour</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 8" loading="lazy">
+        <span>Sangeet Night</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 9" loading="lazy">
+        <span>Emotional Vows</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 10" loading="lazy">
+        <span>Wedding Rings</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 11" loading="lazy">
+        <span>Mehendi Details</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 12" loading="lazy">
+        <span>Family Portraits</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 13" loading="lazy">
+        <span>Floral Decor</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 14" loading="lazy">
+        <span>Bridal Entry</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 15" loading="lazy">
+        <span>Couple Smile</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 16" loading="lazy">
+        <span>Reception Lights</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 17" loading="lazy">
+        <span>Bridal Jewelry</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 18" loading="lazy">
+        <span>Wedding Vibes</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 19" loading="lazy">
+        <span>Haldi Splash</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 20" loading="lazy">
+        <span>Couple Dance</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 21" loading="lazy">
+        <span>Bridal Hues</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 22" loading="lazy">
+        <span>Groom Portrait</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 23" loading="lazy">
+        <span>Traditional Ritual</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 24" loading="lazy">
+        <span>Reception Entry</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 25" loading="lazy">
+        <span>Royal Portrait</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 26" loading="lazy">
+        <span>Ritual Moments</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 27" loading="lazy">
+        <span>Temple Vows</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 28" loading="lazy">
+        <span>Festival Lights</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 29" loading="lazy">
+        <span>Golden Moments</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 30" loading="lazy">
+        <span>Couple Walk</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image1.png" alt="Gallery moment 31" loading="lazy">
+        <span>Wedding Bells</span>
+      </div>
+      <div class="contact-gallery-card">
+        <img src="images/image2.png" alt="Gallery moment 32" loading="lazy">
+        <span>Final Farewell</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-cta-banner reveal-on-scroll">
+  <div class="contact-cta-banner-inner">
+    <div>
+      <p class="section-tag">Book Your Dream Wedding</p>
+      <h2>Let’s create something extraordinary together.</h2>
+    </div>
+    <a href="#booking" class="contact-cta-btn">Book Now</a>
+  </div>
+</section>
+
+<script src="script.js?v=7"></script>
+</body>
+</html>
