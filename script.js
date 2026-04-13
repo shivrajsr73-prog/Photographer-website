@@ -28,7 +28,7 @@ if (hero && sharedBackdrop) {
       }, 1400);
 
       currentIndex = nextIndex;
-    }, 5000);
+    }, 3000);
   }
 }
 
@@ -59,6 +59,75 @@ tiltCards.forEach((card) => {
     card.style.setProperty("--glow-y", "50%");
   });
 });
+
+const contactHero = document.querySelector(".contact-page .hero#contact");
+const ambientOrbs = Array.from(document.querySelectorAll(".contact-page .contact-hero-ambient .ambient-orb"));
+
+if (contactHero && ambientOrbs.length) {
+  const REPEL_RADIUS = 220;
+  const MAX_PUSH = 78;
+  let pointerX = -9999;
+  let pointerY = -9999;
+  let rafId = null;
+
+  const applyRepel = () => {
+    ambientOrbs.forEach((orb) => {
+      const rect = orb.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      const dx = centerX - pointerX;
+      const dy = centerY - pointerY;
+      const distance = Math.hypot(dx, dy);
+
+      if (distance < REPEL_RADIUS && distance > 0.001) {
+        const strength = (REPEL_RADIUS - distance) / REPEL_RADIUS;
+        const push = MAX_PUSH * strength;
+        const shiftX = (dx / distance) * push;
+        const shiftY = (dy / distance) * push;
+        orb.style.setProperty("--orb-repel-x", `${shiftX.toFixed(2)}px`);
+        orb.style.setProperty("--orb-repel-y", `${shiftY.toFixed(2)}px`);
+      } else {
+        orb.style.setProperty("--orb-repel-x", "0px");
+        orb.style.setProperty("--orb-repel-y", "0px");
+      }
+    });
+
+    rafId = null;
+  };
+
+  const requestRepelUpdate = () => {
+    if (rafId !== null) {
+      return;
+    }
+    rafId = window.requestAnimationFrame(applyRepel);
+  };
+
+  contactHero.addEventListener("pointermove", (event) => {
+    pointerX = event.clientX;
+    pointerY = event.clientY;
+    requestRepelUpdate();
+  }, { passive: true });
+
+  window.addEventListener("pointermove", (event) => {
+    const heroRect = contactHero.getBoundingClientRect();
+    if (
+      event.clientX >= heroRect.left &&
+      event.clientX <= heroRect.right &&
+      event.clientY >= heroRect.top &&
+      event.clientY <= heroRect.bottom
+    ) {
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      requestRepelUpdate();
+    }
+  }, { passive: true });
+
+  contactHero.addEventListener("pointerleave", () => {
+    pointerX = -9999;
+    pointerY = -9999;
+    requestRepelUpdate();
+  });
+}
 
 const eventPicker = document.querySelector(".event-picker");
 
@@ -139,6 +208,15 @@ if (budgetDetails && customBudgetInput) {
     }
   };
 
+  const validateCustomBudget = () => {
+    if (customBudgetInput.value && Number(customBudgetInput.value) < 20000) {
+      customBudgetInput.setCustomValidity("Minimum budget must be 20,000");
+      return false;
+    }
+    customBudgetInput.setCustomValidity("");
+    return true;
+  };
+
   const updateBudgetLabel = () => {
     if (selectedBudget === "Etc." && customBudgetInput.value.trim()) {
       budgetValue.textContent = customBudgetInput.value.trim();
@@ -169,7 +247,10 @@ if (budgetDetails && customBudgetInput) {
     });
   });
 
-  customBudgetInput.addEventListener("input", updateBudgetLabel);
+  customBudgetInput.addEventListener("input", () => {
+    updateBudgetLabel();
+    validateCustomBudget();
+  });
   customBudgetInput.addEventListener("keydown", preventEnterSubmit);
 
   budgetOkButton?.addEventListener("click", () => {
@@ -185,6 +266,18 @@ const contactForm = document.querySelector(".contact-form");
 if (contactForm) {
   contactForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    const customBudgetField = contactForm.querySelector(".custom-budget-input");
+    if (
+      customBudgetField &&
+      !customBudgetField.hidden &&
+      customBudgetField.value &&
+      Number(customBudgetField.value) < 20000
+    ) {
+      customBudgetField.setCustomValidity("Minimum budget must be 20,000");
+      customBudgetField.reportValidity();
+      return;
+    }
+    customBudgetField?.setCustomValidity("");
 
     const formData = new FormData(contactForm);
     const eventSummary =
@@ -209,7 +302,7 @@ if (contactForm) {
   });
 
   contactForm.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && event.target.closest(".event-picker, .budget-details")) {
+    if (event.key === "Enter" && event.target.tagName !== "BUTTON" && event.target.tagName !== "TEXTAREA") {
       event.preventDefault();
     }
   });
@@ -646,40 +739,40 @@ if (revealCards.length) {
   }
 }
 
-const lightbox = document.querySelector(".lightbox");
+const storyLightbox = document.querySelector(".lightbox");
+const storyCards = Array.from(document.querySelectorAll(".story-card"));
 
-if (lightbox) {
-  const lightboxImage = lightbox.querySelector(".lightbox-image");
-  const closeButton = lightbox.querySelector(".lightbox-close");
-  const backdrop = lightbox.querySelector(".lightbox-backdrop");
-  const prevButton = lightbox.querySelector(".lightbox-prev");
-  const nextButton = lightbox.querySelector(".lightbox-next");
-  const storyCards = Array.from(document.querySelectorAll(".story-card"));
+if (storyLightbox && storyCards.length) {
+  const storyLightboxImage = storyLightbox.querySelector(".lightbox-image");
+  const storyLightboxClose = storyLightbox.querySelector(".lightbox-close");
+  const storyLightboxBackdrop = storyLightbox.querySelector(".lightbox-backdrop");
+  const storyLightboxPrev = storyLightbox.querySelector(".lightbox-prev");
+  const storyLightboxNext = storyLightbox.querySelector(".lightbox-next");
   let activeStoryIndex = -1;
 
   const updateLightboxImage = (index) => {
     const storyCard = storyCards[index];
 
-    if (!storyCard || !lightboxImage) {
+    if (!storyCard || !storyLightboxImage) {
       return;
     }
 
     const imagePath = storyCard.dataset.lightboxImage;
     const imageElement = storyCard.querySelector("img");
-    lightboxImage.src = imagePath || "";
-    lightboxImage.alt = imageElement?.alt || "Expanded wedding gallery image";
+    storyLightboxImage.src = imagePath || "";
+    storyLightboxImage.alt = imageElement?.alt || "Expanded wedding gallery image";
     activeStoryIndex = index;
   };
 
   const closeLightbox = () => {
-    lightbox.classList.remove("is-open");
+    storyLightbox.classList.remove("is-open");
     window.setTimeout(() => {
-      lightbox.hidden = true;
+      storyLightbox.hidden = true;
     }, 200);
     document.body.style.overflow = "";
     activeStoryIndex = -1;
-    if (lightboxImage) {
-      lightboxImage.src = "";
+    if (storyLightboxImage) {
+      storyLightboxImage.src = "";
     }
   };
 
@@ -698,32 +791,32 @@ if (lightbox) {
 
   storyCards.forEach((card, index) => {
     card.addEventListener("click", () => {
-      if (!lightboxImage) {
+      if (!storyLightboxImage) {
         return;
       }
 
       updateLightboxImage(index);
-      lightbox.hidden = false;
-      lightbox.classList.add("is-open");
+      storyLightbox.hidden = false;
+      storyLightbox.classList.add("is-open");
       document.body.style.overflow = "hidden";
     });
   });
 
-  closeButton?.addEventListener("click", closeLightbox);
-  backdrop?.addEventListener("click", closeLightbox);
-  prevButton?.addEventListener("click", () => navigateLightbox(-1));
-  nextButton?.addEventListener("click", () => navigateLightbox(1));
+  storyLightboxClose?.addEventListener("click", closeLightbox);
+  storyLightboxBackdrop?.addEventListener("click", closeLightbox);
+  storyLightboxPrev?.addEventListener("click", () => navigateLightbox(-1));
+  storyLightboxNext?.addEventListener("click", () => navigateLightbox(1));
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !lightbox.hidden) {
+    if (event.key === "Escape" && !storyLightbox.hidden) {
       closeLightbox();
     }
 
-    if (event.key === "ArrowLeft" && !lightbox.hidden) {
+    if (event.key === "ArrowLeft" && !storyLightbox.hidden) {
       navigateLightbox(-1);
     }
 
-    if (event.key === "ArrowRight" && !lightbox.hidden) {
+    if (event.key === "ArrowRight" && !storyLightbox.hidden) {
       navigateLightbox(1);
     }
   });
@@ -892,6 +985,7 @@ if (portfolioLightbox && portfolioLightboxImage && portfolioViewImages.length) {
     if (!img) return;
     portfolioLightboxImage.src = img.src;
     portfolioLightbox.hidden = false;
+    void portfolioLightbox.offsetWidth;
     portfolioLightbox.classList.add("is-open");
     document.body.style.overflow = "hidden";
     activeIndex = index;
@@ -939,7 +1033,7 @@ if (portfolioLightbox && portfolioLightboxImage && portfolioViewImages.length) {
 }
 
 const contactGalleryCards = Array.from(document.querySelectorAll(".contact-gallery-card"));
-if (contactGalleryCards.length) {
+if (contactGalleryCards.length && document.body.classList.contains("contact-page")) {
   const contactLightbox = document.querySelector(".lightbox");
   const contactLightboxImage = contactLightbox?.querySelector(".lightbox-image");
   const contactLightboxClose = contactLightbox?.querySelector(".lightbox-close");
@@ -948,76 +1042,88 @@ if (contactGalleryCards.length) {
   const contactLightboxBackdrop = contactLightbox?.querySelector(".lightbox-backdrop");
   let activeIndex = -1;
 
-  const openContactLightbox = (index) => {
-    const card = contactGalleryCards[index];
-    const img = card ? card.querySelector("img") : null;
-    if (!img || !contactLightbox || !contactLightboxImage) return;
-    contactLightboxImage.src = img.src;
-    contactLightboxImage.alt = img.alt || "Expanded wedding gallery image";
-    contactLightbox.hidden = false;
-    contactLightbox.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    activeIndex = index;
-  };
+  if (contactLightbox && contactLightboxImage) {
+    const galleryGrid = document.querySelector(".contact-gallery-grid");
 
-  const closeContactLightbox = () => {
-    if (!contactLightbox) return;
-    contactLightbox.classList.remove("is-open");
-    window.setTimeout(() => {
+    const updateContactImage = (index) => {
+      const card = contactGalleryCards[index];
+      const img = card?.querySelector("img");
+      if (!img) return false;
+      contactLightboxImage.src = img.src;
+      contactLightboxImage.alt = img.alt || "Expanded wedding gallery image";
+      activeIndex = index;
+      return true;
+    };
+
+    const openContactLightbox = (index) => {
+      if (!updateContactImage(index)) return;
+      contactLightbox.hidden = false;
+      contactLightbox.classList.add("is-open");
+    };
+
+    const closeContactLightbox = () => {
+      contactLightbox.classList.remove("is-open");
       contactLightbox.hidden = true;
-    }, 200);
-    document.body.style.overflow = "";
-    activeIndex = -1;
-  };
+      contactLightboxImage.removeAttribute("src");
+      activeIndex = -1;
+    };
 
-  const navigate = (direction) => {
-    if (activeIndex < 0) return;
-    const nextIndex =
-      (activeIndex + direction + contactGalleryCards.length) % contactGalleryCards.length;
-    openContactLightbox(nextIndex);
-  };
+    const navigate = (direction) => {
+      if (!contactGalleryCards.length || activeIndex < 0) return;
+      const nextIndex = (activeIndex + direction + contactGalleryCards.length) % contactGalleryCards.length;
+      updateContactImage(nextIndex);
+    };
 
-  contactGalleryCards.forEach((card, index) => {
-    let viewButton = card.querySelector(".contact-gallery-view");
-    if (!viewButton) {
-      viewButton = document.createElement("button");
-      viewButton.type = "button";
-      viewButton.className = "contact-gallery-view";
-      viewButton.textContent = "View";
-      card.appendChild(viewButton);
-    }
-
-    card.setAttribute("role", "button");
-    card.tabIndex = 0;
-    card.addEventListener("click", () => openContactLightbox(index));
-    card.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
+    contactGalleryCards.forEach((card, index) => {
+      card.setAttribute("role", "button");
+      card.tabIndex = 0;
+      card.dataset.galleryIndex = String(index);
+      const image = card.querySelector("img");
+      image?.addEventListener("click", (event) => {
         event.preventDefault();
+        event.stopPropagation();
         openContactLightbox(index);
-      }
+      });
     });
 
-    viewButton.addEventListener("click", (event) => {
-      event.stopPropagation();
+    galleryGrid?.addEventListener("click", (event) => {
+      const card = event.target.closest(".contact-gallery-card");
+      if (!card || !galleryGrid.contains(card)) return;
+      const index = Number(card.dataset.galleryIndex);
+      if (Number.isNaN(index)) return;
       openContactLightbox(index);
     });
-  });
 
-  contactLightboxClose?.addEventListener("click", closeContactLightbox);
-  contactLightboxBackdrop?.addEventListener("click", closeContactLightbox);
-  contactLightboxPrev?.addEventListener("click", () => navigate(-1));
-  contactLightboxNext?.addEventListener("click", () => navigate(1));
+    galleryGrid?.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      const card = event.target.closest(".contact-gallery-card");
+      if (!card || !galleryGrid.contains(card)) return;
+      event.preventDefault();
+      const index = Number(card.dataset.galleryIndex);
+      if (Number.isNaN(index)) return;
+      openContactLightbox(index);
+    });
 
-  document.addEventListener("keydown", (event) => {
-    if (!contactLightbox || contactLightbox.hidden || activeIndex < 0) return;
-    if (event.key === "Escape") {
-      closeContactLightbox();
-    } else if (event.key === "ArrowLeft") {
-      navigate(-1);
-    } else if (event.key === "ArrowRight") {
-      navigate(1);
-    }
-  });
+    contactLightboxClose?.addEventListener("click", closeContactLightbox);
+    contactLightboxBackdrop?.addEventListener("click", closeContactLightbox);
+    contactLightboxPrev?.addEventListener("click", () => navigate(-1));
+    contactLightboxNext?.addEventListener("click", () => navigate(1));
+
+    document.addEventListener("keydown", (event) => {
+      if (contactLightbox.hidden || activeIndex < 0) return;
+      if (event.key === "Escape") {
+        closeContactLightbox();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        navigate(-1);
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        navigate(1);
+      }
+    });
+  }
 }
 
 const photographerRunner = document.querySelector(".photographer-runner");
@@ -1151,20 +1257,21 @@ if (photographerStory && photographerFlash && homeModelTrigger) {
   const showBubble = (text) => {
     if (!photographerBubble || !photographerBubbleText) return;
     photographerBubble.classList.remove("is-show");
+    void photographerBubble.offsetWidth;
+    photographerBubbleText.textContent = text;
+    photographerBubble.classList.add("is-show");
     window.setTimeout(() => {
-      photographerBubbleText.textContent = text;
-      photographerBubble.classList.add("is-show");
       triggerFlash();
       photographerStory.classList.add("is-flashing");
       window.setTimeout(() => photographerStory.classList.remove("is-flashing"), 220);
-    }, 120);
+    }, 140);
   };
 
   const runSequence = () => {
     if (!isActive) return;
     showBubble(messages[activeIndex]);
     activeIndex = (activeIndex + 1) % messages.length;
-    loopTimer = window.setTimeout(runSequence, 2300);
+    loopTimer = window.setTimeout(runSequence, 1800);
   };
 
   const stopSequence = () => {
@@ -1197,7 +1304,7 @@ if (photographerStory && photographerFlash && homeModelTrigger) {
         }
       });
     },
-    { threshold: 0.4 }
+    { threshold: 0.08 }
   );
 
   observer.observe(homeModelTrigger);
@@ -1220,6 +1327,80 @@ if (revealTargets.length > 0 && "IntersectionObserver" in window) {
   revealTargets.forEach((target) => revealObserver.observe(target));
 } else {
   revealTargets.forEach((target) => target.classList.add("is-visible"));
+}
+
+const homeGalleryCards = Array.from(document.querySelectorAll(".home-gallery-card"));
+if (homeGalleryCards.length && !document.body.classList.contains("contact-page")) {
+  const homeLightbox = document.querySelector(".lightbox");
+  const homeLightboxImage = homeLightbox?.querySelector(".lightbox-image");
+  const homeLightboxClose = homeLightbox?.querySelector(".lightbox-close");
+  const homeLightboxPrev = homeLightbox?.querySelector(".lightbox-prev");
+  const homeLightboxNext = homeLightbox?.querySelector(".lightbox-next");
+  const homeLightboxBackdrop = homeLightbox?.querySelector(".lightbox-backdrop");
+  let activeHomeIndex = -1;
+
+  if (homeLightbox && homeLightboxImage) {
+    const updateHomeImage = (index) => {
+      const card = homeGalleryCards[index];
+      const img = card?.querySelector("img");
+      if (!img) return false;
+      homeLightboxImage.src = img.src;
+      homeLightboxImage.alt = img.alt || "Expanded gallery image";
+      activeHomeIndex = index;
+      return true;
+    };
+
+    const openHomeLightbox = (index) => {
+      if (!updateHomeImage(index)) return;
+      homeLightbox.hidden = false;
+      homeLightbox.classList.add("is-open");
+    };
+
+    const closeHomeLightbox = () => {
+      homeLightbox.classList.remove("is-open");
+      homeLightbox.hidden = true;
+      homeLightboxImage.removeAttribute("src");
+      activeHomeIndex = -1;
+    };
+
+    const navigateHome = (direction) => {
+      if (!homeGalleryCards.length || activeHomeIndex < 0) return;
+      const nextIndex = (activeHomeIndex + direction + homeGalleryCards.length) % homeGalleryCards.length;
+      updateHomeImage(nextIndex);
+    };
+
+    homeGalleryCards.forEach((card, index) => {
+      card.setAttribute("role", "button");
+      card.tabIndex = 0;
+      card.addEventListener("click", () => openHomeLightbox(index));
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openHomeLightbox(index);
+        }
+      });
+    });
+
+    homeLightboxClose?.addEventListener("click", closeHomeLightbox);
+    homeLightboxBackdrop?.addEventListener("click", closeHomeLightbox);
+    homeLightboxPrev?.addEventListener("click", () => navigateHome(-1));
+    homeLightboxNext?.addEventListener("click", () => navigateHome(1));
+
+    document.addEventListener("keydown", (event) => {
+      if (homeLightbox.hidden || activeHomeIndex < 0) return;
+      if (event.key === "Escape") {
+        closeHomeLightbox();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        navigateHome(-1);
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        navigateHome(1);
+      }
+    });
+  }
 }
 
 const countTargets = document.querySelectorAll(".count-up");
