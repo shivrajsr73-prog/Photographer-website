@@ -2,34 +2,80 @@ const hero = document.querySelector(".hero");
 const sharedBackdrop = document.querySelector(".shared-backdrop");
 
 if (hero && sharedBackdrop) {
-  const heroImages = ["images/image1.png", "images/image2.png"];
+  const heroSlides = [
+    {
+      position: "50% 42%",
+      candidates: ["images/home-hero-image1.jpg?v=7", "images/home-hero-image1.jpeg?v=7", "images/home-hero-image1.webp?v=7", "images/home-hero-image1.png?v=7"]
+    },
+    {
+      position: "50% 28%",
+      candidates: ["images/home-hero-image2.webp?v=9", "images/home-hero-image2.jpg?v=9", "images/home-hero-image2.jpeg?v=9", "images/home-hero-image2.png?v=9"]
+    }
+  ];
   const primaryLayer = sharedBackdrop.querySelector(".shared-backdrop-primary");
   const secondaryLayer = sharedBackdrop.querySelector(".shared-backdrop-secondary");
   let currentIndex = 0;
 
-  const setLayerBackground = (layer, imagePath) => {
-    layer.style.backgroundImage = `url("${imagePath}")`;
+  const setLayerBackground = (layer, slide) => {
+    layer.style.backgroundImage = `url("${slide.src}")`;
+    layer.style.backgroundPosition = slide.position;
   };
 
-  if (primaryLayer && secondaryLayer) {
-    setLayerBackground(primaryLayer, heroImages[currentIndex]);
-  }
+  const loadImage = (src) => new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(src);
+    img.onerror = reject;
+    img.src = src;
+  });
 
-  if (heroImages.length > 1 && primaryLayer && secondaryLayer) {
-    setInterval(() => {
-      const nextIndex = (currentIndex + 1) % heroImages.length;
-      setLayerBackground(secondaryLayer, heroImages[nextIndex]);
-      sharedBackdrop.classList.add("is-transitioning");
+  const resolveFirstAvailable = async (candidates) => {
+    for (const candidate of candidates) {
+      try {
+        const loaded = await loadImage(candidate);
+        return loaded;
+      } catch (_) {
+        // try next extension candidate
+      }
+    }
+    return null;
+  };
 
-      window.setTimeout(() => {
-        setLayerBackground(primaryLayer, heroImages[nextIndex]);
-        sharedBackdrop.classList.remove("is-transitioning");
-        secondaryLayer.style.backgroundImage = "";
-      }, 1400);
+  const initHeroSlideshow = async () => {
+    const resolvedSlides = [];
+    for (const slide of heroSlides) {
+      const picked = await resolveFirstAvailable(slide.candidates);
+      if (picked) {
+        resolvedSlides.push({
+          src: picked,
+          position: slide.position
+        });
+      }
+    }
 
-      currentIndex = nextIndex;
-    }, 3000);
-  }
+    if (!primaryLayer || !secondaryLayer || resolvedSlides.length === 0) {
+      return;
+    }
+
+    setLayerBackground(primaryLayer, resolvedSlides[currentIndex]);
+
+    if (resolvedSlides.length > 1) {
+      setInterval(() => {
+        const nextIndex = (currentIndex + 1) % resolvedSlides.length;
+        setLayerBackground(secondaryLayer, resolvedSlides[nextIndex]);
+        sharedBackdrop.classList.add("is-transitioning");
+
+        window.setTimeout(() => {
+          setLayerBackground(primaryLayer, resolvedSlides[nextIndex]);
+          sharedBackdrop.classList.remove("is-transitioning");
+          secondaryLayer.style.backgroundImage = "";
+        }, 1400);
+
+        currentIndex = nextIndex;
+      }, 4000);
+    }
+  };
+
+  initHeroSlideshow();
 }
 
 // Removed scroll-driven hero shifts to keep layout stable.
@@ -194,6 +240,7 @@ if (eventPicker) {
   updateEventLabel();
 }
 
+const contactForm = document.querySelector(".contact-form");
 const budgetDetails = document.querySelector(".budget-details");
 const customBudgetInput = document.querySelector(".custom-budget-input");
 
@@ -215,6 +262,14 @@ if (budgetDetails && customBudgetInput) {
     }
     customBudgetInput.setCustomValidity("");
     return true;
+  };
+
+  const normalizeCustomBudget = () => {
+    if (!customBudgetInput.value) {
+      return;
+    }
+    const numericValue = Math.max(0, Math.floor(Number(customBudgetInput.value)));
+    customBudgetInput.value = String(numericValue);
   };
 
   const updateBudgetLabel = () => {
@@ -248,12 +303,22 @@ if (budgetDetails && customBudgetInput) {
   });
 
   customBudgetInput.addEventListener("input", () => {
+    normalizeCustomBudget();
     updateBudgetLabel();
+    validateCustomBudget();
+  });
+  customBudgetInput.addEventListener("blur", () => {
+    normalizeCustomBudget();
     validateCustomBudget();
   });
   customBudgetInput.addEventListener("keydown", preventEnterSubmit);
 
   budgetOkButton?.addEventListener("click", () => {
+    if (selectedBudget === "Etc." && !validateCustomBudget()) {
+      customBudgetInput.reportValidity();
+      customBudgetInput.focus();
+      return;
+    }
     updateBudgetLabel();
     budgetDetails.removeAttribute("open");
     contactForm?.querySelector('button[type="submit"]')?.focus();
@@ -261,11 +326,14 @@ if (budgetDetails && customBudgetInput) {
   updateBudgetLabel();
 }
 
-const contactForm = document.querySelector(".contact-form");
-
 if (contactForm) {
-  contactForm.addEventListener("submit", (event) => {
+  contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (!contactForm.reportValidity()) {
+      return;
+    }
+    const formStatus = contactForm.querySelector(".contact-form-status");
+    const submitButton = contactForm.querySelector('button[type="submit"]');
     const customBudgetField = contactForm.querySelector(".custom-budget-input");
     if (
       customBudgetField &&
@@ -275,17 +343,37 @@ if (contactForm) {
     ) {
       customBudgetField.setCustomValidity("Minimum budget must be 20,000");
       customBudgetField.reportValidity();
+      if (formStatus) {
+        formStatus.hidden = false;
+        formStatus.style.color = "#9b1c1c";
+        formStatus.textContent = "Please enter minimum 20,000 budget.";
+      }
       return;
     }
     customBudgetField?.setCustomValidity("");
 
     const formData = new FormData(contactForm);
     const eventSummary =
-      document.querySelector(".event-picker-value")?.textContent?.trim() || "";
+      String(formData.get("eventType") || "").trim();
     const budgetSummary =
-      document.querySelector(".budget-value")?.textContent?.trim() || "";
+      (customBudgetField?.value ? Number(customBudgetField.value).toLocaleString("en-IN") : "") ||
+      document.querySelector(".budget-value")?.textContent?.trim() ||
+      "";
     const weddingDate =
       document.querySelector("#wedding-date-display")?.value?.trim() || "";
+
+    const weddingDateDisplay = document.querySelector("#wedding-date-display");
+    if (!weddingDate) {
+      weddingDateDisplay?.setCustomValidity("Please choose an event date.");
+      weddingDateDisplay?.reportValidity();
+      if (formStatus) {
+        formStatus.hidden = false;
+        formStatus.style.color = "#9b1c1c";
+        formStatus.textContent = "Please fill all required details.";
+      }
+      return;
+    }
+    weddingDateDisplay?.setCustomValidity("");
 
     const messageLines = [
       "New Wedding Inquiry",
@@ -296,9 +384,53 @@ if (contactForm) {
       `Event Type: ${eventSummary}`,
       `Budget: ${budgetSummary}`,
     ];
+    const plainMessage = messageLines.join("\n");
 
-    const message = encodeURIComponent(messageLines.join("\n"));
-    window.open(`https://wa.me/919315971839?text=${message}`, "_blank");
+    try {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = "Submitting...";
+      }
+
+      const response = await fetch("https://formsubmit.co/ajax/preetpassi570@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: "New Wedding Inquiry",
+          name: formData.get("name") || "",
+          email: formData.get("email") || "",
+          phone: formData.get("phone") || "",
+          weddingDate,
+          eventType: eventSummary,
+          budget: budgetSummary,
+          message: plainMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit inquiry");
+      }
+
+      if (formStatus) {
+        formStatus.hidden = false;
+        formStatus.style.color = "#2f6d2f";
+        formStatus.textContent = "Your inquiry has been submitted.";
+      }
+    } catch (error) {
+      if (formStatus) {
+        formStatus.hidden = false;
+        formStatus.style.color = "#9b1c1c";
+        formStatus.textContent = "Submission failed. Please try again.";
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Submit";
+      }
+    }
   });
 
   contactForm.addEventListener("keydown", (event) => {
@@ -329,8 +461,7 @@ if (datePicker) {
     grid &&
     prevBtn &&
     nextBtn &&
-    clearBtn &&
-    todayBtn;
+    clearBtn;
 
   if (!hasDatePickerParts) {
     // Missing expected date picker elements on this page.
@@ -338,6 +469,7 @@ if (datePicker) {
   } else {
 
   const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
   const minMonthDate = new Date(today.getFullYear(), today.getMonth(), 1);
   let selectedDate = null;
   let viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -410,6 +542,13 @@ if (datePicker) {
         button.classList.add("is-today");
       }
 
+      if (cellDate <= todayStart) {
+        button.classList.add("is-muted");
+        button.disabled = true;
+        grid.appendChild(button);
+        continue;
+      }
+
       if (isSameDate(cellDate, selectedDate)) {
         button.classList.add("is-selected");
       }
@@ -455,13 +594,15 @@ if (datePicker) {
     renderCalendar();
   });
 
-  todayBtn.addEventListener("click", () => {
-    selectedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
-    dateDisplay.value = formatDisplayDate(selectedDate);
-    dateValue.value = formatValueDate(selectedDate);
-    renderCalendar();
-  });
+  if (todayBtn) {
+    todayBtn.addEventListener("click", () => {
+      selectedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
+      dateDisplay.value = formatDisplayDate(selectedDate);
+      dateValue.value = formatValueDate(selectedDate);
+      renderCalendar();
+    });
+  }
 
   document.addEventListener("click", (event) => {
     if (!datePicker.contains(event.target)) {
@@ -966,6 +1107,11 @@ if (portfolioFilterButtons.length && portfolioFilterImages.length) {
       applyFilter(filter);
     });
   });
+
+  const initialActiveButton = portfolioFilterButtons.find((btn) => btn.classList.contains("is-active")) || portfolioFilterButtons[0];
+  if (initialActiveButton) {
+    applyFilter(initialActiveButton.dataset.filter || "all");
+  }
 }
 
 const portfolioLightbox = document.querySelector(".lightbox");

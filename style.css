@@ -227,6 +227,7 @@ h3 {
 
 .portfolio-image-item {
   position: relative;
+  aspect-ratio: 4 / 5;
   border-radius: 22px;
   border: 1px solid rgba(180, 140, 60, 0.2);
   box-shadow: 0 18px 36px rgba(100, 70, 30, 0.12);
@@ -236,7 +237,9 @@ h3 {
 
 .portfolio-image-item img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 28%;
   display: block;
   border-radius: 22px;
   transition: transform 0.35s ease;
@@ -400,8 +403,13 @@ h3 {
   will-change:opacity;
 }
 
+body:not(.contact-page) .shared-backdrop-layer {
+  background-position: 50% 42%;
+  background-size: cover;
+}
+
 .shared-backdrop-primary {
-  background-image:url("images/image1.png");
+  background-image:url("images/home-hero-image1.jpg?v=6");
 }
 
 .shared-backdrop-secondary {
@@ -543,12 +551,12 @@ body:not(.contact-page) .hero-booking-wrap::after {
   left: 0;
   right: 0;
   bottom: -1px;
-  height: clamp(150px, 24vh, 260px);
+  height: clamp(100px, 16vh, 170px);
   background: linear-gradient(
     to bottom,
     rgba(255,255,255,0) 0%,
-    rgba(255,248,235,0.4) 40%,
-    rgba(255,248,235,0.85) 70%,
+    rgba(255,248,235,0.16) 45%,
+    rgba(255,248,235,0.48) 75%,
     #F8F1E7 100%
   );
   pointer-events: none;
@@ -558,14 +566,14 @@ body:not(.contact-page) .hero-booking-wrap::after {
 body:not(.contact-page) .hero-booking-wrap {
   -webkit-mask-image: linear-gradient(
     to bottom,
-    rgba(0,0,0,1) 60%,
-    rgba(0,0,0,0.4) 80%,
+    rgba(0,0,0,1) 82%,
+    rgba(0,0,0,0.82) 92%,
     rgba(0,0,0,0) 100%
   );
   mask-image: linear-gradient(
     to bottom,
-    rgba(0,0,0,1) 60%,
-    rgba(0,0,0,0.4) 80%,
+    rgba(0,0,0,1) 82%,
+    rgba(0,0,0,0.82) 92%,
     rgba(0,0,0,0) 100%
   );
 }
@@ -665,6 +673,10 @@ button:hover {
 
 #booking {
   scroll-margin-top: 150px;
+}
+
+#booking-form {
+  scroll-margin-top: 130px;
 }
 .booking > * {
   position:relative;
@@ -1054,18 +1066,19 @@ body.contact-page .contact-points span {
 .date-nav,
 .date-footer-btn {
   min-width:auto;
-  padding:8px 12px;
-  border-radius:12px;
-  background:rgba(0, 0, 0, 0.06);
-  color:#1a1209;
+  padding:7px 11px;
+  border-radius:10px;
+  background:#f3efe4;
+  color:#2a1b0b;
   box-shadow:none;
-  border:none;
+  border:1px solid rgba(180, 140, 60, 0.2);
+  font-weight:500;
 }
 
 .date-nav:hover,
 .date-footer-btn:hover {
-  background:rgba(200, 160, 0, 0.18);
-  color:#3d2800;
+  background:#ece4d0;
+  color:#2a1b0b;
   transform:none;
 }
 
@@ -1124,11 +1137,9 @@ body.contact-page .contact-points span {
 }
 
 .date-day.is-selected {
-  background:linear-gradient(135deg, #ffd54a, #ffb800);
-  color:#111;
-  box-shadow:
-    0 14px 24px rgba(200, 160, 0, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  background:#d6a93a;
+  color:#1a1209;
+  box-shadow:none;
 }
 
 .date-day.is-today {
@@ -1191,6 +1202,13 @@ body.contact-page .contact-points span {
   box-shadow:
     0 14px 30px rgba(200, 160, 0, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.contact-form-status {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #2f6d2f;
 }
 
 .gallery {
@@ -2746,9 +2764,13 @@ html {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: 28px;
-  align-items: start;
+  align-items: center;
   text-align: left;
   background: linear-gradient(180deg, rgba(255, 251, 243, 0.94), rgba(247, 239, 225, 0.94));
+}
+
+.about-contact-copy {
+  align-self: center;
 }
 
 .about-section-title {
@@ -2758,8 +2780,10 @@ html {
 
 .about-contact-cards {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 18px;
+  max-width: 420px;
+  width: 100%;
 }
 
 .about-contact-card {
@@ -3305,6 +3329,49 @@ body.contact-page .booking {
   background: none;
   overflow: hidden;
   isolation: isolate;
+}
+
+.contact-hero-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(32, 20, 10, 0.24), rgba(32, 20, 10, 0.24)),
+    url("images/contact-hero-bg.webp?v=2");
+  background-size: cover;
+  background-position: center 38%;
+  background-repeat: no-repeat;
+  filter: blur(5px);
+  transform: scale(1.03);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.95) 18%,
+    rgba(0, 0, 0, 0.95) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.95) 18%,
+    rgba(0, 0, 0, 0.95) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.contact-hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(248, 241, 231, 0.88) 0%,
+    rgba(248, 241, 231, 0.28) 20%,
+    rgba(248, 241, 231, 0.1) 50%,
+    rgba(248, 241, 231, 0.45) 80%,
+    rgba(248, 241, 231, 0.9) 100%
+  );
 }
 
 .contact-hero-ambient {
@@ -3886,6 +3953,7 @@ body.contact-page .contact-form button:hover,
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 28%;
   display: block;
   transition: none;
   cursor: zoom-in;
@@ -4161,6 +4229,34 @@ body.about-page-body {
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
+.about-social-link[aria-label="Instagram"] {
+  color: #fff;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 8%, #fd5949 38%, #d6249f 65%, #285aeb 100%);
+  border-color: rgba(214, 36, 159, 0.25);
+  box-shadow: 0 14px 28px rgba(214, 36, 159, 0.22);
+}
+
+.about-social-link[aria-label="WhatsApp"] {
+  color: #fff;
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  border-color: rgba(18, 140, 126, 0.24);
+  box-shadow: 0 14px 28px rgba(18, 140, 126, 0.2);
+}
+
+.about-social-link[aria-label="Facebook"] {
+  color: #fff;
+  background: linear-gradient(135deg, #1877f2, #145dc7);
+  border-color: rgba(24, 119, 242, 0.24);
+  box-shadow: 0 14px 28px rgba(24, 119, 242, 0.2);
+}
+
+.about-social-link[aria-label="YouTube"] {
+  color: #fff;
+  background: linear-gradient(135deg, #ff2a2a, #ff0000);
+  border-color: rgba(255, 0, 0, 0.24);
+  box-shadow: 0 14px 28px rgba(255, 0, 0, 0.24);
+}
+
 .about-social-link i {
   font-size: 1.2rem;
   line-height: 1;
@@ -4170,6 +4266,26 @@ body.about-page-body {
   transform: translateY(-4px);
   background: linear-gradient(135deg, #f4c55f, #f8e4b7);
   box-shadow: 0 18px 34px rgba(100, 70, 30, 0.18);
+}
+
+.about-social-link[aria-label="Instagram"]:hover {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #feda75 10%, #fa7e1e 32%, #d62976 58%, #962fbf 78%, #4f5bd5 100%);
+  box-shadow: 0 18px 34px rgba(214, 36, 159, 0.3);
+}
+
+.about-social-link[aria-label="WhatsApp"]:hover {
+  background: linear-gradient(135deg, #2ee66b, #128c7e);
+  box-shadow: 0 18px 34px rgba(18, 140, 126, 0.28);
+}
+
+.about-social-link[aria-label="Facebook"]:hover {
+  background: linear-gradient(135deg, #2a86ff, #1877f2);
+  box-shadow: 0 18px 34px rgba(24, 119, 242, 0.3);
+}
+
+.about-social-link[aria-label="YouTube"]:hover {
+  background: linear-gradient(135deg, #ff4747, #ff0f0f);
+  box-shadow: 0 18px 34px rgba(255, 0, 0, 0.3);
 }
 
 .about-story-block,
@@ -4474,6 +4590,11 @@ body.contact-page .top-nav {
   z-index: 1200 !important;
 }
 
+body.contact-page .contact-hero-ambient,
+body.contact-page .ambient-orb {
+  display: none !important;
+}
+
 /* Keep contact page overlays neutral without affecting Home hero background */
 body.contact-page .hero-booking-wrap::before,
 body.contact-page .hero-booking-wrap::after,
@@ -4754,5 +4875,60 @@ body.contact-page .hero-booking-wrap {
 
   .contact-gallery-grid {
     grid-auto-rows: 180px;
+  }
+}
+
+/* Final mobile fixes */
+@media (max-width: 768px) {
+  /* On phones, nav should scroll with page (not fixed) */
+  .top-nav {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    margin: 10px 10px 0 !important;
+    width: auto !important;
+    z-index: 20 !important;
+  }
+
+  /* Show more of hero image on phones */
+  body:not(.contact-page) .shared-backdrop-layer {
+    background-size: contain !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+  }
+
+  body:not(.contact-page) .hero {
+    min-height: 100svh;
+    padding-top: 168px !important;
+  }
+
+  /* Keep top nav clean and readable */
+  .top-nav {
+    background: rgba(248, 241, 231, 0.74) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(185, 145, 65, 0.2) !important;
+    border-radius: 16px !important;
+  }
+
+  /* Contact gallery must stay visible on mobile */
+  .contact-gallery {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .contact-gallery-grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Hide emoji charms on hanging frames for phones */
+  .chain-charm,
+  .column-charm,
+  .featured-charm {
+    display: none !important;
   }
 }

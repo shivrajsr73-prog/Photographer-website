@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact Us | Wedding 3D Website</title>
+<link rel="canonical" href="https://yourdomain.com/contact.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=17">
+<link rel="stylesheet" href="style.css?v=18">
 </head>
 <body class="contact-page">
 <nav class="top-nav">
@@ -36,26 +37,9 @@
   </div>
 
   <section class="hero" id="contact">
-    <div class="contact-hero-ambient" aria-hidden="true">
-      <span class="ambient-orb orb-one"></span>
-      <span class="ambient-orb orb-two"></span>
-      <span class="ambient-orb orb-three"></span>
-      <span class="ambient-orb orb-four"></span>
-      <span class="ambient-orb orb-five"></span>
-      <span class="ambient-orb orb-six"></span>
-      <span class="ambient-orb orb-seven"></span>
-      <span class="ambient-orb orb-eight"></span>
-      <span class="ambient-orb orb-nine"></span>
-      <span class="ambient-orb orb-ten"></span>
-      <span class="ambient-orb orb-eleven"></span>
-      <span class="ambient-orb orb-twelve"></span>
-      <span class="ambient-orb orb-thirteen"></span>
-      <span class="ambient-orb orb-fourteen"></span>
-      <span class="ambient-orb orb-fifteen"></span>
-      <span class="ambient-orb orb-sixteen"></span>
-    </div>
+    <div class="contact-hero-photo" aria-hidden="true"></div>
     <h1 class="hero-title">Let's Plan Your Dream Wedding Story</h1>
-    <button class="hero-cta" type="button" onclick="location.href='#booking'">Start Here</button>
+    <button class="hero-cta" type="button" onclick="location.href='#booking-form'">Start Here</button>
   </section>
 
   <section class="contact-info-card reveal-on-scroll">
@@ -68,15 +52,15 @@
       <div class="contact-info-card-grid">
         <div>
           <h4>Phone</h4>
-          <p>+91 93169 72233</p>
+          <p>9625284323<br>8588070178</p>
         </div>
         <div>
           <h4>Email</h4>
-          <p>Example1243@gmail.com</p>
+          <p>yourweddingdreamsstudio@gmail.com</p>
         </div>
         <div>
           <h4>Location</h4>
-          <p>Rajouri Garden, New Delhi, India</p>
+          <p>25, Foota Rd, Parvatiya Aanchal, Block B, Sant Nagar, Burari Delhi- 110084</p>
         </div>
       </div>
     </div>
@@ -93,20 +77,21 @@
         <span>Fast response within 24 hours</span>
       </div>
     </div>
-    <div class="right tilt-card">
+    <div class="right tilt-card" id="booking-form">
+      <h3 class="contact-form-heading">Fill the detail</h3>
       <form class="contact-form">
         <div class="input-field">
-          <input name="name" type="text" placeholder="Your Name" autocomplete="name">
+          <input name="name" type="text" placeholder="Your Name" autocomplete="name" required>
         </div>
         <div class="input-field">
-          <input name="email" type="email" placeholder="Email Address" autocomplete="email">
+          <input name="email" type="email" placeholder="Email Address" autocomplete="email" required>
         </div>
         <div class="input-field">
-          <input name="phone" type="tel" placeholder="Phone Number" autocomplete="tel">
+          <input name="phone" type="tel" placeholder="Phone Number" autocomplete="tel" required>
         </div>
         <div class="date-picker">
           <label class="budget-label" for="wedding-date-display">Event Date</label>
-          <input id="wedding-date-display" class="date-display" placeholder="Choose your event date" readonly>
+          <input id="wedding-date-display" class="date-display" placeholder="Choose your event date" readonly required>
           <input id="wedding-date-value" type="hidden" name="weddingDate">
           <div class="date-picker-popup" hidden>
             <div class="date-picker-header">
@@ -126,51 +111,19 @@
             <div class="date-grid"></div>
             <div class="date-picker-footer">
               <button type="button" class="date-footer-btn" data-action="clear">Clear</button>
-              <button type="button" class="date-footer-btn" data-action="today">Today</button>
             </div>
           </div>
         </div>
-        <details class="event-picker">
-          <summary>
-            <span class="event-picker-label">Type of Event</span>
-            <span class="event-picker-value">Click to choose</span>
-          </summary>
-          <div class="event-options">
-            <button type="button" class="event-option" data-value="Wedding Photography">Wedding Photography</button>
-            <button type="button" class="event-option" data-value="Haldi and Mahendi Photography">Haldi and Mahendi Photography</button>
-            <button type="button" class="event-option" data-value="Pre-Wedding Photography">Pre-Wedding Photography</button>
-            <button type="button" class="event-option" data-value="Baby Photoshoot">Baby Photoshoot</button>
-            <button type="button" class="event-option" data-value="Etc.">Etc.</button>
-          </div>
-          <input class="custom-event-input" name="customEventType" placeholder="Write event type" hidden>
-          <div class="picker-actions">
-            <button type="button" class="picker-ok">OK</button>
-          </div>
-        </details>
-        <div class="budget-picker">
-          <details class="budget-details">
-            <summary>
-              <span class="budget-label">Estimated Budget</span>
-              <span class="budget-value">Choose budget</span>
-            </summary>
-            <div class="budget-options">
-              <button type="button" class="budget-option" data-value="20,000">20,000</button>
-              <button type="button" class="budget-option" data-value="25,000">25,000</button>
-              <button type="button" class="budget-option" data-value="30,000">30,000</button>
-              <button type="button" class="budget-option" data-value="35,000">35,000</button>
-              <button type="button" class="budget-option" data-value="40,000">40,000</button>
-              <button type="button" class="budget-option" data-value="45,000">45,000</button>
-              <button type="button" class="budget-option" data-value="50,000">50,000</button>
-              <button type="button" class="budget-option" data-value="More Than 50,000">More Than 50,000</button>
-              <button type="button" class="budget-option" data-value="Etc.">Etc.</button>
-            </div>
-            <input class="custom-budget-input" name="customBudget" type="number" min="20000" placeholder="Write your budget (min 20,000)" hidden>
-            <div class="picker-actions">
-              <button type="button" class="picker-ok">OK</button>
-            </div>
-          </details>
+        <div class="input-field">
+          <label class="budget-label" for="event-type-input">Type of Event</label>
+          <input id="event-type-input" name="eventType" type="text" placeholder="Write your event type" autocomplete="off" required>
+        </div>
+        <div class="input-field">
+          <label class="budget-label" for="estimated-budget-input">Estimated Budget</label>
+          <input id="estimated-budget-input" class="custom-budget-input" name="customBudget" type="number" min="20000" step="1000" placeholder="Enter budget (minimum 20,000)" required>
         </div>
         <button type="submit">Submit</button>
+        <p class="contact-form-status" role="status" aria-live="polite" hidden></p>
       </form>
     </div>
   </section>
@@ -206,15 +159,15 @@
     <div class="contact-info-grid">
       <div>
         <h4>Phone</h4>
-        <p>+91 93169 72233</p>
+        <p>9625284323<br>8588070178</p>
       </div>
       <div>
         <h4>Email</h4>
-        <p>Example1243@gmail.com</p>
+        <p>yourweddingdreamsstudio@gmail.com</p>
       </div>
       <div>
         <h4>Location</h4>
-        <p>Rajouri Garden, New Delhi, India</p>
+        <p>25, Foota Rd, Parvatiya Aanchal, Block B, Sant Nagar, Burari Delhi- 110084</p>
       </div>
     </div>
   </div>
@@ -249,132 +202,100 @@
     <h2>Moments crafted with warmth and elegance.</h2>
     <div class="contact-gallery-grid">
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 1" loading="lazy">
+        <img src="images/contact-gallery-01.jpg" alt="Gallery moment 1" loading="lazy">
         <span>Haldi Celebration</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 2" loading="lazy">
+        <img src="images/contact-gallery-02.jpg" alt="Gallery moment 2" loading="lazy">
         <span>Wedding Portraits</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 3" loading="lazy">
+        <img src="images/contact-gallery-03.jpg" alt="Gallery moment 3" loading="lazy">
         <span>Couple Story</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 4" loading="lazy">
+        <img src="images/contact-gallery-04.jpg" alt="Gallery moment 4" loading="lazy">
         <span>Reception Details</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 5" loading="lazy">
+        <img src="images/contact-gallery-05.jpg" alt="Gallery moment 5" loading="lazy">
         <span>Mandap Details</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 6" loading="lazy">
+        <img src="images/contact-gallery-06.jpg" alt="Gallery moment 6" loading="lazy">
         <span>Bridal Portrait</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 7" loading="lazy">
+        <img src="images/contact-gallery-07.jpg" alt="Gallery moment 7" loading="lazy">
         <span>Golden Hour</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 8" loading="lazy">
+        <img src="images/contact-gallery-08.jpg" alt="Gallery moment 8" loading="lazy">
         <span>Sangeet Night</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 9" loading="lazy">
+        <img src="images/contact-gallery-09.jpg" alt="Gallery moment 9" loading="lazy">
         <span>Emotional Vows</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 10" loading="lazy">
+        <img src="images/contact-gallery-10.jpg" alt="Gallery moment 10" loading="lazy">
         <span>Wedding Rings</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 11" loading="lazy">
+        <img src="images/contact-gallery-11.jpg" alt="Gallery moment 11" loading="lazy">
         <span>Mehendi Details</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 12" loading="lazy">
+        <img src="images/contact-gallery-12.jpg" alt="Gallery moment 12" loading="lazy">
         <span>Family Portraits</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 13" loading="lazy">
+        <img src="images/contact-gallery-13.jpg" alt="Gallery moment 13" loading="lazy">
         <span>Floral Decor</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 14" loading="lazy">
+        <img src="images/contact-gallery-14.jpg" alt="Gallery moment 14" loading="lazy">
         <span>Bridal Entry</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 15" loading="lazy">
+        <img src="images/contact-gallery-15.jpg" alt="Gallery moment 15" loading="lazy">
         <span>Couple Smile</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 16" loading="lazy">
+        <img src="images/contact-gallery-16.jpg" alt="Gallery moment 16" loading="lazy">
         <span>Reception Lights</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 17" loading="lazy">
+        <img src="images/contact-gallery-17.jpg" alt="Gallery moment 17" loading="lazy">
         <span>Bridal Jewelry</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 18" loading="lazy">
+        <img src="images/contact-gallery-18.jpg" alt="Gallery moment 18" loading="lazy">
         <span>Wedding Vibes</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 19" loading="lazy">
+        <img src="images/contact-gallery-19.jpg" alt="Gallery moment 19" loading="lazy">
         <span>Haldi Splash</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 20" loading="lazy">
+        <img src="images/contact-gallery-20.jpg" alt="Gallery moment 20" loading="lazy">
         <span>Couple Dance</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 21" loading="lazy">
+        <img src="images/contact-gallery-21.jpg" alt="Gallery moment 21" loading="lazy">
         <span>Bridal Hues</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 22" loading="lazy">
+        <img src="images/contact-gallery-22.jpg" alt="Gallery moment 22" loading="lazy">
         <span>Groom Portrait</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 23" loading="lazy">
+        <img src="images/contact-gallery-23.jpg" alt="Gallery moment 23" loading="lazy">
         <span>Traditional Ritual</span>
       </div>
       <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 24" loading="lazy">
+        <img src="images/contact-gallery-24.jpg" alt="Gallery moment 24" loading="lazy">
         <span>Reception Entry</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 25" loading="lazy">
-        <span>Royal Portrait</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 26" loading="lazy">
-        <span>Ritual Moments</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 27" loading="lazy">
-        <span>Temple Vows</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 28" loading="lazy">
-        <span>Festival Lights</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 29" loading="lazy">
-        <span>Golden Moments</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 30" loading="lazy">
-        <span>Couple Walk</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image1.png" alt="Gallery moment 31" loading="lazy">
-        <span>Wedding Bells</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/image2.png" alt="Gallery moment 32" loading="lazy">
-        <span>Final Farewell</span>
       </div>
     </div>
   </div>
@@ -386,7 +307,7 @@
       <p class="section-tag">Book Your Dream Wedding</p>
       <h2>Let’s create something extraordinary together.</h2>
     </div>
-    <a href="#booking" class="contact-cta-btn">Book Now</a>
+    <a href="#booking-form" class="contact-cta-btn">Book Now</a>
   </div>
 </section>
 
@@ -400,6 +321,6 @@
   </div>
 </div>
 
-<script src="script.js?v=11"></script>
+<script src="script.js?v=24"></script>
 </body>
 </html>
