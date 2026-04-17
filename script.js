@@ -179,60 +179,66 @@ const eventPicker = document.querySelector(".event-picker");
 
 if (eventPicker) {
   const eventValue = eventPicker.querySelector(".event-picker-value");
-  const eventButtons = eventPicker.querySelectorAll(".event-option");
-  const customEventInput = eventPicker.querySelector(".custom-event-input");
+  const eventOptions = eventPicker.querySelectorAll(".event-option");
+  const eventCheckboxes = eventPicker.querySelectorAll(".event-option-input");
+  const eventOptionsWrap = eventPicker.querySelector(".event-options");
+  const eventActionsWrap = eventPicker.querySelector(".picker-actions");
   const eventOkButton = eventPicker.querySelector(".picker-ok");
-  let selectedEvent = "";
-  const preventEnterSubmit = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-    }
-  };
+  const eventInput = document.querySelector("#event-type-input");
+  let allowEventPickerClose = false;
 
   const updateEventLabel = () => {
-    if (selectedEvent === "Etc." && customEventInput && customEventInput.value.trim()) {
-      if (eventValue) {
-        eventValue.textContent = customEventInput.value.trim();
-      }
-      return;
-    }
+    const selectedList = Array.from(eventCheckboxes)
+      .filter((checkbox) => checkbox.checked)
+      .map((checkbox) => checkbox.value);
+    const labelText = selectedList.length ? selectedList.join(", ") : "Click to choose";
 
     if (eventValue) {
-      eventValue.textContent = selectedEvent || "Click to choose";
+      eventValue.textContent = labelText;
+    }
+
+    if (eventInput) {
+      eventInput.value = selectedList.join(", ");
     }
   };
 
-  eventButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      selectedEvent = button.dataset.value || "";
-
-      eventButtons.forEach((item) => item.classList.remove("is-selected"));
-      button.classList.add("is-selected");
-
-      const showCustomEvent = selectedEvent === "Etc.";
-
-      if (customEventInput) {
-        customEventInput.hidden = !showCustomEvent;
-
-        if (showCustomEvent) {
-          customEventInput.focus();
-        } else {
-          customEventInput.value = "";
-          eventPicker.removeAttribute("open");
-        }
-      } else {
-        eventPicker.removeAttribute("open");
-      }
-
+  eventOptions.forEach((option) => {
+    option.addEventListener("click", () => {
+      option.classList.toggle("is-selected", Boolean(option.querySelector(".event-option-input:checked")));
       updateEventLabel();
     });
   });
 
-  customEventInput?.addEventListener("input", updateEventLabel);
-  customEventInput?.addEventListener("keydown", preventEnterSubmit);
+  eventCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      const parentOption = checkbox.closest(".event-option");
+      parentOption?.classList.toggle("is-selected", checkbox.checked);
+      updateEventLabel();
+    });
+  });
+
+  // Keep picker open while selecting multiple events.
+  eventPicker.addEventListener("toggle", () => {
+    if (!eventPicker.open && !allowEventPickerClose) {
+      eventPicker.open = true;
+      return;
+    }
+    if (!eventPicker.open) {
+      allowEventPickerClose = false;
+    }
+  });
+
+  eventOptionsWrap?.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+
+  eventActionsWrap?.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
 
   eventOkButton?.addEventListener("click", () => {
     updateEventLabel();
+    allowEventPickerClose = true;
     eventPicker.removeAttribute("open");
     document.querySelector(".budget-details summary")?.focus();
   });
@@ -243,6 +249,8 @@ if (eventPicker) {
 const contactForm = document.querySelector(".contact-form");
 const budgetDetails = document.querySelector(".budget-details");
 const customBudgetInput = document.querySelector(".custom-budget-input");
+const MIN_BUDGET = 20000;
+const MAX_BUDGET = 500000;
 
 if (budgetDetails && customBudgetInput) {
   const budgetValue = budgetDetails.querySelector(".budget-value");
@@ -256,8 +264,12 @@ if (budgetDetails && customBudgetInput) {
   };
 
   const validateCustomBudget = () => {
-    if (customBudgetInput.value && Number(customBudgetInput.value) < 20000) {
+    if (customBudgetInput.value && Number(customBudgetInput.value) < MIN_BUDGET) {
       customBudgetInput.setCustomValidity("Minimum budget must be 20,000");
+      return false;
+    }
+    if (customBudgetInput.value && Number(customBudgetInput.value) > MAX_BUDGET) {
+      customBudgetInput.setCustomValidity("Maximum budget must be 500,000");
       return false;
     }
     customBudgetInput.setCustomValidity("");
@@ -269,7 +281,8 @@ if (budgetDetails && customBudgetInput) {
       return;
     }
     const numericValue = Math.max(0, Math.floor(Number(customBudgetInput.value)));
-    customBudgetInput.value = String(numericValue);
+    const boundedValue = Math.min(MAX_BUDGET, numericValue);
+    customBudgetInput.value = String(boundedValue);
   };
 
   const updateBudgetLabel = () => {
@@ -326,6 +339,39 @@ if (budgetDetails && customBudgetInput) {
   updateBudgetLabel();
 }
 
+if (customBudgetInput) {
+  const clampBudgetValue = () => {
+    const raw = String(customBudgetInput.value || "").trim();
+    if (!raw) {
+      customBudgetInput.setCustomValidity("");
+      return;
+    }
+
+    const numericValue = Math.max(0, Math.floor(Number(raw)));
+    if (Number.isNaN(numericValue)) {
+      customBudgetInput.value = "";
+      customBudgetInput.setCustomValidity("");
+      return;
+    }
+
+    if (numericValue > MAX_BUDGET) {
+      customBudgetInput.value = String(MAX_BUDGET);
+      customBudgetInput.setCustomValidity("Maximum budget must be 500,000");
+      return;
+    }
+
+    customBudgetInput.value = String(numericValue);
+    if (numericValue < MIN_BUDGET) {
+      customBudgetInput.setCustomValidity("Minimum budget must be 20,000");
+    } else {
+      customBudgetInput.setCustomValidity("");
+    }
+  };
+
+  customBudgetInput.addEventListener("input", clampBudgetValue);
+  customBudgetInput.addEventListener("blur", clampBudgetValue);
+}
+
 if (contactForm) {
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -337,9 +383,8 @@ if (contactForm) {
     const customBudgetField = contactForm.querySelector(".custom-budget-input");
     if (
       customBudgetField &&
-      !customBudgetField.hidden &&
       customBudgetField.value &&
-      Number(customBudgetField.value) < 20000
+      Number(customBudgetField.value) < MIN_BUDGET
     ) {
       customBudgetField.setCustomValidity("Minimum budget must be 20,000");
       customBudgetField.reportValidity();
@@ -347,6 +392,20 @@ if (contactForm) {
         formStatus.hidden = false;
         formStatus.style.color = "#9b1c1c";
         formStatus.textContent = "Please enter minimum 20,000 budget.";
+      }
+      return;
+    }
+    if (
+      customBudgetField &&
+      customBudgetField.value &&
+      Number(customBudgetField.value) > MAX_BUDGET
+    ) {
+      customBudgetField.setCustomValidity("Maximum budget must be 500,000");
+      customBudgetField.reportValidity();
+      if (formStatus) {
+        formStatus.hidden = false;
+        formStatus.style.color = "#9b1c1c";
+        formStatus.textContent = "Please enter budget up to 500,000.";
       }
       return;
     }

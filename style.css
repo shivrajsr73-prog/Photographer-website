@@ -852,6 +852,9 @@ body.contact-page .contact-points span {
 
 .event-option {
   width:100%;
+  display:flex;
+  align-items:center;
+  gap:10px;
   text-align:left;
   min-height:48px;
   color:rgba(30, 20, 5, 0.88);
@@ -861,6 +864,28 @@ body.contact-page .contact-points span {
   border-radius:0;
   box-shadow:none;
   font-size:1rem;
+  cursor:pointer;
+}
+
+.event-option-input {
+  all: revert;
+  appearance: auto;
+  -webkit-appearance: checkbox;
+  width:18px !important;
+  height:18px !important;
+  min-height:18px !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:none !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  accent-color:#c9972f;
+  cursor:pointer;
+  flex:0 0 auto;
+}
+
+.event-option span {
+  flex:1;
 }
 
 .event-option:hover {
@@ -2046,6 +2071,28 @@ html {
     padding:90px 20px 60px;
   }
 
+  .hero {
+    height:auto;
+    min-height:52svh;
+    justify-content:center;
+    padding:96px 20px 24px;
+  }
+
+  body:not(.contact-page) .hero-booking-wrap {
+    -webkit-mask-image:none;
+    mask-image:none;
+  }
+
+  body:not(.contact-page) .hero-booking-wrap::after {
+    height:72px;
+    background:linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 248, 235, 0.3) 58%,
+      #f8f1e7 100%
+    );
+  }
+
   .stories-gallery {
     padding:90px 20px 70px;
   }
@@ -2085,10 +2132,10 @@ html {
   }
 
   .hanging-column {
-    height:1320px;
+    height:auto;
     gap:18px;
     padding-top:108px;
-    padding-bottom:96px;
+    padding-bottom:34px;
   }
 
   .photo-card,
@@ -2104,6 +2151,18 @@ html {
 
   .photo-card {
     margin-top:calc(108px + (var(--hook-size) / 2));
+  }
+
+  .column-photo-lower {
+    display:none;
+  }
+
+  .column-rope {
+    height:calc(100% - 34px);
+  }
+
+  .column-charm {
+    bottom:8px;
   }
 }
 
@@ -4655,16 +4714,17 @@ body.contact-page .hero-booking-wrap {
   }
 
   .hero {
-    height: 100svh;
-    min-height: 620px;
-    padding: 118px 16px 54px;
+    height: auto;
+    min-height: auto;
+    padding: 102px 16px 26px;
+    justify-content: flex-start;
   }
 
   body:not(.contact-page) .hero-booking-wrap {
     background-size: contain;
     background-position: center top;
     background-repeat: no-repeat;
-    min-height: 100svh;
+    min-height: auto;
     background-color: #f8f1e7;
   }
 
@@ -4899,8 +4959,41 @@ body.contact-page .hero-booking-wrap {
   }
 
   body:not(.contact-page) .hero {
-    min-height: 100svh;
-    padding-top: 168px !important;
+    height: auto !important;
+    min-height: auto !important;
+    justify-content: flex-start !important;
+    padding: clamp(365px, 70vw, 440px) 16px 28px !important;
+    overflow: visible !important;
+  }
+
+  body:not(.contact-page) .hero-booking-wrap::after {
+    top: clamp(228px, 44vw, 295px) !important;
+    bottom: auto !important;
+    height: clamp(130px, 26vw, 190px) !important;
+    background: linear-gradient(
+      to bottom,
+      rgba(248, 241, 231, 0) 0%,
+      rgba(248, 241, 231, 0.12) 28%,
+      rgba(248, 241, 231, 0.5) 58%,
+      rgba(248, 241, 231, 0.84) 80%,
+      #f8f1e7 100%
+    ) !important;
+    filter: blur(8px) !important;
+    transform: translateY(8px) !important;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.35) 24%,
+      rgba(0, 0, 0, 0.8) 58%,
+      rgba(0, 0, 0, 1) 100%
+    ) !important;
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.35) 24%,
+      rgba(0, 0, 0, 0.8) 58%,
+      rgba(0, 0, 0, 1) 100%
+    ) !important;
   }
 
   /* Keep top nav clean and readable */
@@ -4930,5 +5023,106 @@ body.contact-page .hero-booking-wrap {
   .column-charm,
   .featured-charm {
     display: none !important;
+  }
+
+  /* Contact form card polish on phones */
+  body.contact-page .booking {
+    padding: 62px 12px 26px !important;
+    gap: 14px !important;
+  }
+
+  body.contact-page .booking .left {
+    display: block !important;
+    width: min(100%, 420px) !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 16px !important;
+    border-radius: 18px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  body.contact-page .booking .right {
+    width: min(100%, 420px) !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    padding: 16px !important;
+    border-radius: 18px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    box-shadow:
+      0 14px 28px rgba(95, 66, 26, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+  }
+
+  body.contact-page .contact-form-heading {
+    margin: 0 2px 12px !important;
+    font-size: 1.9rem !important;
+    line-height: 1.1 !important;
+  }
+
+  body.contact-page .contact-form {
+    gap: 10px !important;
+    padding: 12px !important;
+    border-radius: 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body.contact-page .contact-form .input-field,
+  body.contact-page .date-picker {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body.contact-page .contact-form input,
+  body.contact-page .contact-form .date-display,
+  body.contact-page .contact-form .custom-event-input,
+  body.contact-page .contact-form .custom-budget-input {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: 48px !important;
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
+    font-size: 0.98rem !important;
+    box-sizing: border-box !important;
+  }
+
+  body.contact-page .contact-form .custom-budget-input {
+    margin: 0 !important;
+    display: block !important;
+  }
+
+  body.contact-page .budget-label {
+    margin-bottom: 6px !important;
+    font-size: 1.05rem !important;
+  }
+
+  body.contact-page .contact-points {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  body.contact-page .contact-points span {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 12px 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  body.contact-page .contact-form button[type="submit"] {
+    width: 100% !important;
+    justify-self: stretch !important;
+    margin-top: 4px !important;
+    min-width: 0 !important;
+  }
+
+  body.contact-page .booking .left,
+  body.contact-page .booking .right {
+    transform: none !important;
   }
 }
