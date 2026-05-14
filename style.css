@@ -5406,6 +5406,7 @@ body.contact-page .hero-booking-wrap {
     width: clamp(136px, 38vw, 156px) !important;
   }
 
+  .pile-photo-desktop,
   .pile-photo:nth-child(n + 16) {
     display: none !important;
   }
