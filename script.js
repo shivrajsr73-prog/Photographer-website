@@ -861,6 +861,144 @@ if (hangingColumns.length || featuredPhoto) {
   });
 }
 
+const pilePhotos = Array.from(document.querySelectorAll(".pile-photo"));
+
+if (pilePhotos.length) {
+  let pileZIndex = 40;
+  let dragState = null;
+  let dragFrame = null;
+
+  const readPixelVar = (element, name) => {
+    const value = window.getComputedStyle(element).getPropertyValue(name);
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  };
+
+  const applyDragPosition = (photo, x, y) => {
+    photo.style.setProperty("--drag-x", `${x.toFixed(2)}px`);
+    photo.style.setProperty("--drag-y", `${y.toFixed(2)}px`);
+  };
+
+  const scheduleDragFrame = () => {
+    if (dragFrame !== null) {
+      return;
+    }
+
+    dragFrame = window.requestAnimationFrame(animateDrag);
+  };
+
+  const animateDrag = () => {
+    dragFrame = null;
+
+    if (!dragState) {
+      return;
+    }
+
+    const ease = dragState.pointerType === "touch"
+      ? (dragState.isDragging ? 0.58 : 0.36)
+      : (dragState.isDragging ? 0.42 : 0.3);
+    dragState.currentX += (dragState.targetX - dragState.currentX) * ease;
+    dragState.currentY += (dragState.targetY - dragState.currentY) * ease;
+    applyDragPosition(dragState.photo, dragState.currentX, dragState.currentY);
+
+    const remaining = Math.hypot(
+      dragState.targetX - dragState.currentX,
+      dragState.targetY - dragState.currentY
+    );
+
+    if (dragState.isDragging || remaining > 0.25) {
+      scheduleDragFrame();
+      return;
+    }
+
+    applyDragPosition(dragState.photo, dragState.targetX, dragState.targetY);
+    dragState = null;
+  };
+
+  pilePhotos.forEach((photo) => {
+    photo.tabIndex = 0;
+
+    photo.addEventListener("pointerdown", (event) => {
+      if (event.button !== undefined && event.button !== 0) {
+        return;
+      }
+
+      const startX = readPixelVar(photo, "--drag-x");
+      const startY = readPixelVar(photo, "--drag-y");
+      event.preventDefault();
+
+      dragState = {
+        photo,
+        pointerId: event.pointerId,
+        pointerType: event.pointerType,
+        startPointerX: event.clientX,
+        startPointerY: event.clientY,
+        startX,
+        startY,
+        currentX: startX,
+        currentY: startY,
+        targetX: startX,
+        targetY: startY,
+        isDragging: true,
+      };
+
+      photo.style.zIndex = String(++pileZIndex);
+      photo.classList.add("is-dragging");
+      photo.setPointerCapture(event.pointerId);
+      scheduleDragFrame();
+    });
+
+    photo.addEventListener("pointermove", (event) => {
+      if (!dragState || dragState.photo !== photo) {
+        return;
+      }
+
+      event.preventDefault();
+      dragState.targetX = dragState.startX + event.clientX - dragState.startPointerX;
+      dragState.targetY = dragState.startY + event.clientY - dragState.startPointerY;
+      scheduleDragFrame();
+    });
+
+    const endDrag = (event) => {
+      if (!dragState || dragState.photo !== photo || dragState.pointerId !== event.pointerId) {
+        return;
+      }
+
+      photo.classList.remove("is-dragging");
+      if (photo.hasPointerCapture(event.pointerId)) {
+        photo.releasePointerCapture(event.pointerId);
+      }
+      dragState.isDragging = false;
+      scheduleDragFrame();
+    };
+
+    photo.addEventListener("pointerup", endDrag);
+    photo.addEventListener("pointercancel", endDrag);
+
+    photo.addEventListener("keydown", (event) => {
+      const step = event.shiftKey ? 18 : 8;
+      const keys = {
+        ArrowLeft: [-step, 0],
+        ArrowRight: [step, 0],
+        ArrowUp: [0, -step],
+        ArrowDown: [0, step],
+      };
+      const move = keys[event.key];
+
+      if (!move) {
+        return;
+      }
+
+      event.preventDefault();
+      const currentX = readPixelVar(photo, "--drag-x");
+      const currentY = readPixelVar(photo, "--drag-y");
+      photo.style.zIndex = String(++pileZIndex);
+      photo.style.setProperty("--drag-x", `${currentX + move[0]}px`);
+      photo.style.setProperty("--drag-y", `${currentY + move[1]}px`);
+    });
+  });
+}
+
 const revealCards = Array.from(document.querySelectorAll(".reveal-card"));
 const INITIAL_VISIBLE_GALLERY_COUNT = 12;
 const LOAD_MORE_BATCH_SIZE = 6;
