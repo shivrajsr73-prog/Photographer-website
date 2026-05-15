@@ -375,6 +375,7 @@ if (customBudgetInput) {
 if (contactForm) {
   contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+
     if (!contactForm.reportValidity()) {
       return;
     }
@@ -416,7 +417,6 @@ if (contactForm) {
       String(formData.get("eventType") || "").trim();
     const budgetSummary =
       (customBudgetField?.value ? Number(customBudgetField.value).toLocaleString("en-IN") : "") ||
-      document.querySelector(".budget-value")?.textContent?.trim() ||
       "";
     const weddingDate =
       document.querySelector("#wedding-date-display")?.value?.trim() || "";
@@ -434,61 +434,80 @@ if (contactForm) {
     }
     weddingDateDisplay?.setCustomValidity("");
 
-    const messageLines = [
-      "New Wedding Inquiry",
+    const inquiryMessage = [
+      "New Event Query",
       `Name: ${formData.get("name") || ""}`,
       `Email: ${formData.get("email") || ""}`,
       `Phone: ${formData.get("phone") || ""}`,
       `Wedding Date: ${weddingDate}`,
       `Event Type: ${eventSummary}`,
       `Budget: ${budgetSummary}`,
-    ];
-    const plainMessage = messageLines.join("\n");
+    ].join("\n");
+    const messageInput = contactForm.querySelector("#inquiry-message-input");
+    if (messageInput) {
+      messageInput.value = inquiryMessage;
+    }
+
+    const subject = "New Event Query from " + (formData.get("name") || "Website");
+    formData.set("subject", subject);
+    formData.set("message", inquiryMessage);
+
+    if (formStatus) {
+      formStatus.hidden = false;
+      formStatus.style.color = "inherit";
+      formStatus.textContent = "Submitting...";
+    }
+
+    if (submitButton) submitButton.disabled = true;
 
     try {
-      if (submitButton) {
-        submitButton.disabled = true;
-        submitButton.textContent = "Submitting...";
-      }
-
-      const response = await fetch("https://formsubmit.co/ajax/preetpassi570@gmail.com", {
+      const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
+        body: formData,
         headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify({
-          _subject: "New Wedding Inquiry",
-          name: formData.get("name") || "",
-          email: formData.get("email") || "",
-          phone: formData.get("phone") || "",
-          weddingDate,
-          eventType: eventSummary,
-          budget: budgetSummary,
-          message: plainMessage,
-        }),
+          Accept: "application/json"
+        }
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit inquiry");
-      }
+      const data = await response.json();
 
-      if (formStatus) {
-        formStatus.hidden = false;
-        formStatus.style.color = "#2f6d2f";
-        formStatus.textContent = "Your inquiry has been submitted.";
+      if (data.success) {
+        if (formStatus) {
+          formStatus.hidden = false;
+          formStatus.style.color = "#2f6d2f";
+          formStatus.textContent = "Thank you! Your inquiry has been submitted.";
+        }
+
+        contactForm.reset();
+        document.querySelector("#wedding-date-display")?.setCustomValidity("");
+        const weddingDateValue = document.querySelector("#wedding-date-value");
+        const eventTypeInput = document.querySelector("#event-type-input");
+        if (weddingDateValue) {
+          weddingDateValue.value = "";
+        }
+        if (eventTypeInput) {
+          eventTypeInput.value = "";
+        }
+        document.querySelector(".event-picker-value")?.replaceChildren(document.createTextNode("Click to choose"));
+        document.querySelectorAll(".event-option-input").forEach((checkbox) => {
+          checkbox.checked = false;
+          checkbox.closest(".event-option")?.classList.remove("is-selected");
+        });
+      } else {
+        if (formStatus) {
+          formStatus.hidden = false;
+          formStatus.style.color = "#9b1c1c";
+          formStatus.textContent = "Something went wrong!";
+        }
       }
     } catch (error) {
       if (formStatus) {
         formStatus.hidden = false;
         formStatus.style.color = "#9b1c1c";
-        formStatus.textContent = "Submission failed. Please try again.";
+        formStatus.textContent = "Something went wrong!";
       }
     } finally {
-      if (submitButton) {
-        submitButton.disabled = false;
-        submitButton.textContent = "Submit";
-      }
+      if (submitButton) submitButton.disabled = false;
     }
   });
 
@@ -1464,6 +1483,79 @@ if (contactGalleryCards.length && document.body.classList.contains("contact-page
       }
       if (event.key === "ArrowRight") {
         navigate(1);
+      }
+    });
+  }
+}
+
+const aboutTeamCards = Array.from(document.querySelectorAll(".about-team-card"));
+if (aboutTeamCards.length && document.body.classList.contains("about-page-body")) {
+  const teamLightbox = document.querySelector(".lightbox");
+  const teamLightboxImage = teamLightbox?.querySelector(".lightbox-image");
+  const teamLightboxClose = teamLightbox?.querySelector(".lightbox-close");
+  const teamLightboxPrev = teamLightbox?.querySelector(".lightbox-prev");
+  const teamLightboxNext = teamLightbox?.querySelector(".lightbox-next");
+  const teamLightboxBackdrop = teamLightbox?.querySelector(".lightbox-backdrop");
+  let activeTeamIndex = -1;
+
+  if (teamLightbox && teamLightboxImage) {
+    const updateTeamImage = (index) => {
+      const card = aboutTeamCards[index];
+      const image = card?.querySelector("img");
+      if (!image) return false;
+      teamLightboxImage.src = image.src;
+      teamLightboxImage.alt = image.alt || "Expanded team photo";
+      activeTeamIndex = index;
+      return true;
+    };
+
+    const openTeamLightbox = (index) => {
+      if (!updateTeamImage(index)) return;
+      teamLightbox.hidden = false;
+      teamLightbox.classList.add("is-open");
+    };
+
+    const closeTeamLightbox = () => {
+      teamLightbox.classList.remove("is-open");
+      teamLightbox.hidden = true;
+      teamLightboxImage.removeAttribute("src");
+      activeTeamIndex = -1;
+    };
+
+    const navigateTeam = (direction) => {
+      if (activeTeamIndex < 0) return;
+      const nextIndex = (activeTeamIndex + direction + aboutTeamCards.length) % aboutTeamCards.length;
+      updateTeamImage(nextIndex);
+    };
+
+    aboutTeamCards.forEach((card, index) => {
+      card.setAttribute("role", "button");
+      card.tabIndex = 0;
+      card.addEventListener("click", () => openTeamLightbox(index));
+      card.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        openTeamLightbox(index);
+      });
+    });
+
+    teamLightboxClose?.addEventListener("click", closeTeamLightbox);
+    teamLightboxBackdrop?.addEventListener("click", closeTeamLightbox);
+    teamLightboxPrev?.addEventListener("click", () => navigateTeam(-1));
+    teamLightboxNext?.addEventListener("click", () => navigateTeam(1));
+
+    document.addEventListener("keydown", (event) => {
+      if (teamLightbox.hidden || activeTeamIndex < 0) return;
+      if (event.key === "Escape") {
+        closeTeamLightbox();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        navigateTeam(-1);
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        navigateTeam(1);
       }
     });
   }

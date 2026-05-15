@@ -35,14 +35,6 @@
     <a href="about.html">About Us</a>
   </div>
 </nav>
-<section class="contact-intro reveal-on-scroll">
-  <div class="contact-intro-inner">
-    <img class="logo-mark logo-mark--section" src="images/logo.png" alt="logo">
-    <p class="section-tag">Contact</p>
-    <h1>Let us craft a calm, luxury wedding experience.</h1>
-    <p>Share your story and we will curate a visual plan that feels refined and timeless.</p>
-  </div>
-</section>
 <div class="hero-booking-wrap">
   <div class="shared-backdrop">
     <div class="shared-backdrop-layer shared-backdrop-primary"></div>
@@ -92,7 +84,7 @@
     </div>
     <div class="right tilt-card" id="booking-form">
       <h3 class="contact-form-heading">Fill the detail</h3>
-      <form class="contact-form" action="https://formsubmit.co/79a139831456c2939e2214b7855b9284" method="POST">
+      <form class="contact-form">
         <div class="input-field">
           <input name="name" type="text" placeholder="Your Name" autocomplete="name" required>
         </div>
@@ -164,8 +156,11 @@
         </div>
         <div class="input-field">
           <label class="budget-label" for="estimated-budget-input">Estimated Budget</label>
-          <input id="estimated-budget-input" class="custom-budget-input" name="customBudget" type="number" min="20000" max="500000" step="1000" placeholder="Enter budget (20,000 to 500,000)" required>
+          <input id="estimated-budget-input" class="custom-budget-input" name="budget" type="number" min="20000" max="500000" step="1000" placeholder="Enter budget (20,000 to 500,000)" required>
         </div>
+        <input type="hidden" name="access_key" value="92bbefd2-9f1e-48f2-a477-6cb4fd851470">
+        <input type="hidden" name="subject" value="New Wedding Inquiry">
+        <input id="inquiry-message-input" type="hidden" name="message">
         <button type="submit">Submit</button>
         <p class="contact-form-status" role="status" aria-live="polite" hidden></p>
       </form>
@@ -277,70 +272,6 @@
         <img src="images/contact-gallery-08.jpg" alt="Gallery moment 8" loading="lazy">
         <span>Sangeet Night</span>
       </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-09.jpg" alt="Gallery moment 9" loading="lazy">
-        <span>Emotional Vows</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-10.jpg" alt="Gallery moment 10" loading="lazy">
-        <span>Wedding Rings</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-11.jpg" alt="Gallery moment 11" loading="lazy">
-        <span>Mehendi Details</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-12.jpg" alt="Gallery moment 12" loading="lazy">
-        <span>Family Portraits</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-13.jpg" alt="Gallery moment 13" loading="lazy">
-        <span>Floral Decor</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-14.jpg" alt="Gallery moment 14" loading="lazy">
-        <span>Bridal Entry</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-15.jpg" alt="Gallery moment 15" loading="lazy">
-        <span>Couple Smile</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-16.jpg" alt="Gallery moment 16" loading="lazy">
-        <span>Reception Lights</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-17.jpg" alt="Gallery moment 17" loading="lazy">
-        <span>Bridal Jewelry</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-18.jpg" alt="Gallery moment 18" loading="lazy">
-        <span>Wedding Vibes</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-19.jpg" alt="Gallery moment 19" loading="lazy">
-        <span>Haldi Splash</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-20.jpg" alt="Gallery moment 20" loading="lazy">
-        <span>Couple Dance</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-21.jpg" alt="Gallery moment 21" loading="lazy">
-        <span>Bridal Hues</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-22.jpg" alt="Gallery moment 22" loading="lazy">
-        <span>Groom Portrait</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-23.jpg" alt="Gallery moment 23" loading="lazy">
-        <span>Traditional Ritual</span>
-      </div>
-      <div class="contact-gallery-card">
-        <img src="images/contact-gallery-24.jpg" alt="Gallery moment 24" loading="lazy">
-        <span>Reception Entry</span>
-      </div>
     </div>
   </div>
 </section>
@@ -365,6 +296,6 @@
   </div>
 </div>
 
-<script src="script.js?v=27"></script>
+<script src="script.js?v=34"></script>
 </body>
 </html>

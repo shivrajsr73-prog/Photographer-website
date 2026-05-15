@@ -37,13 +37,6 @@
   </div>
 </nav>
 
-<section class="about-minimal-hero reveal-on-scroll">
-  <div class="about-minimal-inner">
-    <p class="section-tag">About</p>
-    <h1>Elegant wedding storytelling, crafted with care.</h1>
-  </div>
-</section>
-
 <section class="about-page" id="about">
   <div class="about-shell">
     <div class="about-hero">
@@ -68,7 +61,7 @@
         <div class="about-profile-glow" aria-hidden="true"></div>
       </div>
       <div class="about-profile-text about-reveal">
-        <p class="about-eyebrow">Meet The Artist</p>
+        <p class="about-eyebrow">Meet The Founder</p>
         <h2 class="about-profile-name">Gaurav</h2>
         <p class="about-profile-role">Wedding Photographer and Cinematic Storyteller</p>
         <p class="about-profile-bio">Hi, I'm Gaurav. I focus on natural emotions, elegant portraits, and storytelling that lets your day feel real even years later. The goal is simple: beautiful photos that still feel like you.</p>
@@ -121,20 +114,19 @@
 
     <div class="about-gallery">
       <div class="about-gallery-copy">
-        <p class="about-eyebrow about-reveal">Portfolio Glimpse</p>
-        <h2 class="about-gallery-title about-reveal">A few frames from celebrations we have loved capturing.</h2>
+        <p class="about-eyebrow about-reveal">Our Team</p>
+        <h2 class="about-gallery-title about-reveal">The team behind every calm, cinematic wedding story.</h2>
       </div>
-      <div class="about-gallery-slider">
-        <button class="about-gallery-nav about-gallery-prev" type="button" aria-label="Show previous gallery photos">&lsaquo;</button>
-        <div class="about-gallery-strip">
-          <img src="images/about-glimpse-01.jpg" alt="Wedding moment 1" loading="lazy">
-          <img src="images/about-glimpse-02.jpg" alt="Wedding moment 2" loading="lazy">
-          <img src="images/about-glimpse-03.jpg" alt="Wedding moment 3" loading="lazy">
-          <img src="images/about-glimpse-04.jpg" alt="Wedding moment 4" loading="lazy">
-          <img src="images/about-glimpse-05.jpg" alt="Wedding moment 5" loading="lazy">
-          <img src="images/about-glimpse-06.jpg" alt="Wedding moment 6" loading="lazy">
-        </div>
-        <button class="about-gallery-nav about-gallery-next" type="button" aria-label="Show next gallery photos">&rsaquo;</button>
+      <div class="about-team-grid">
+        <figure class="about-team-card about-reveal">
+          <img src="images/about.team.01.jpg" alt="Your Wedding Dreams team photo 1" loading="lazy">
+        </figure>
+        <figure class="about-team-card about-reveal">
+          <img src="images/about.team.02.jpg" alt="Your Wedding Dreams team photo 2" loading="lazy">
+        </figure>
+        <figure class="about-team-card about-reveal">
+          <img src="images/about.team.03.jpg" alt="Your Wedding Dreams team photo 3" loading="lazy">
+        </figure>
       </div>
     </div>
 
@@ -156,6 +148,16 @@
     </div>
   </div>
 </section>
+
+<div class="lightbox" hidden>
+  <button class="lightbox-close" type="button" aria-label="Close team image">&times;</button>
+  <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous team image">&#10094;</button>
+  <button class="lightbox-nav lightbox-next" type="button" aria-label="Next team image">&#10095;</button>
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Team photo preview">
+    <img class="lightbox-image" alt="Expanded team photo">
+  </div>
+</div>
 
 <script src="script.js?v=27"></script>
 </body>
