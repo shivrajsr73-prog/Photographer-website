@@ -175,80 +175,15 @@ if (contactHero && ambientOrbs.length) {
   });
 }
 
-const eventPicker = document.querySelector(".event-picker");
-
-if (eventPicker) {
-  const eventValue = eventPicker.querySelector(".event-picker-value");
-  const eventOptions = eventPicker.querySelectorAll(".event-option");
-  const eventCheckboxes = eventPicker.querySelectorAll(".event-option-input");
-  const eventOptionsWrap = eventPicker.querySelector(".event-options");
-  const eventActionsWrap = eventPicker.querySelector(".picker-actions");
-  const eventOkButton = eventPicker.querySelector(".picker-ok");
-  const eventInput = document.querySelector("#event-type-input");
-  let allowEventPickerClose = false;
-
-  const updateEventLabel = () => {
-    const selectedList = Array.from(eventCheckboxes)
-      .filter((checkbox) => checkbox.checked)
-      .map((checkbox) => checkbox.value);
-    const labelText = selectedList.length ? selectedList.join(", ") : "Click to choose";
-
-    if (eventValue) {
-      eventValue.textContent = labelText;
-    }
-
-    if (eventInput) {
-      eventInput.value = selectedList.join(", ");
-    }
-  };
-
-  eventOptions.forEach((option) => {
-    option.addEventListener("click", () => {
-      option.classList.toggle("is-selected", Boolean(option.querySelector(".event-option-input:checked")));
-      updateEventLabel();
-    });
-  });
-
-  eventCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", () => {
-      const parentOption = checkbox.closest(".event-option");
-      parentOption?.classList.toggle("is-selected", checkbox.checked);
-      updateEventLabel();
-    });
-  });
-
-  // Keep picker open while selecting multiple events.
-  eventPicker.addEventListener("toggle", () => {
-    if (!eventPicker.open && !allowEventPickerClose) {
-      eventPicker.open = true;
-      return;
-    }
-    if (!eventPicker.open) {
-      allowEventPickerClose = false;
-    }
-  });
-
-  eventOptionsWrap?.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-
-  eventActionsWrap?.addEventListener("click", (event) => {
-    event.stopPropagation();
-  });
-
-  eventOkButton?.addEventListener("click", () => {
-    updateEventLabel();
-    allowEventPickerClose = true;
-    eventPicker.removeAttribute("open");
-    document.querySelector(".budget-details summary")?.focus();
-  });
-
-  updateEventLabel();
-}
 
 const contactForm = document.querySelector(".contact-form");
 const budgetDetails = document.querySelector(".budget-details");
 const customBudgetInput = document.querySelector(".custom-budget-input");
+const eventTypeSelect = document.querySelector(".multi-select");
+const eventTypeValues = document.querySelector("#event-type-values");
+const eventTypeOptions = document.querySelector("#event-type-options");
+const eventTypeInput = document.querySelector("#event-type-input");
+const eventTypeToggle = document.querySelector(".multi-select-toggle");
 const MIN_BUDGET = 20000;
 const MAX_BUDGET = 500000;
 
@@ -339,6 +274,104 @@ if (budgetDetails && customBudgetInput) {
   updateBudgetLabel();
 }
 
+const toggleEventTypeOptions = (show) => {
+  if (!eventTypeSelect || !eventTypeOptions || !eventTypeToggle) return;
+  const isOpen = show === undefined ? !eventTypeOptions.hidden : show;
+  eventTypeOptions.hidden = !isOpen;
+  eventTypeSelect.setAttribute("aria-expanded", String(isOpen));
+  eventTypeToggle.setAttribute("aria-expanded", String(isOpen));
+};
+
+const updateEventTypeValue = (selectedValues) => {
+  if (!eventTypeInput || !eventTypeValues) return;
+  eventTypeInput.value = selectedValues.join(", ");
+  const hasValue = selectedValues.length > 0;
+  eventTypeValues.innerHTML = "";
+
+  if (!hasValue) {
+    const placeholder = document.createElement("span");
+    placeholder.className = "multi-select-placeholder";
+    placeholder.textContent = "Select event type";
+    eventTypeValues.appendChild(placeholder);
+    return;
+  }
+
+  selectedValues.forEach((value) => {
+    const chip = document.createElement("span");
+    chip.className = "multi-select-chip";
+    chip.textContent = value;
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.setAttribute("aria-label", `Remove ${value}`);
+    removeButton.textContent = "×";
+    removeButton.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const option = Array.from(eventTypeOptions.querySelectorAll("li")).find((item) => item.dataset.value === value);
+      if (option) {
+        option.classList.remove("is-selected");
+        option.setAttribute("aria-selected", "false");
+      }
+      const remaining = selectedValues.filter((item) => item !== value);
+      selectedEventTypes = remaining;
+      updateEventTypeValue(remaining);
+    });
+
+    chip.appendChild(removeButton);
+    eventTypeValues.appendChild(chip);
+  });
+};
+
+let selectedEventTypes = [];
+
+if (eventTypeToggle && eventTypeOptions && eventTypeSelect) {
+  eventTypeToggle.addEventListener("click", () => {
+    toggleEventTypeOptions();
+  });
+
+  eventTypeOptions.querySelectorAll("li").forEach((option) => {
+    const toggleOption = (event) => {
+      if (event) {
+        event.stopPropagation();
+      }
+      const optionValue = option.dataset.value;
+      const index = selectedEventTypes.indexOf(optionValue);
+      if (index === -1) {
+        selectedEventTypes.push(optionValue);
+        option.classList.add("is-selected");
+        option.setAttribute("aria-selected", "true");
+      } else {
+        selectedEventTypes.splice(index, 1);
+        option.classList.remove("is-selected");
+        option.setAttribute("aria-selected", "false");
+      }
+      updateEventTypeValue(selectedEventTypes);
+      toggleEventTypeOptions(true);
+    };
+
+    option.addEventListener("click", (event) => toggleOption(event));
+    option.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleOption(event);
+      }
+    });
+  });
+
+  eventTypeToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleEventTypeOptions();
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!eventTypeSelect.contains(event.target)) {
+      toggleEventTypeOptions(false);
+    }
+  });
+
+  updateEventTypeValue([]);
+}
+
 if (customBudgetInput) {
   const clampBudgetValue = () => {
     const raw = String(customBudgetInput.value || "").trim();
@@ -413,18 +446,28 @@ if (contactForm) {
     customBudgetField?.setCustomValidity("");
 
     const formData = new FormData(contactForm);
-    const eventSummary =
-      String(formData.get("eventType") || "").trim();
-    const budgetSummary =
-      (customBudgetField?.value ? Number(customBudgetField.value).toLocaleString("en-IN") : "") ||
-      "";
-    const weddingDate =
-      document.querySelector("#wedding-date-display")?.value?.trim() || "";
+    const eventSummary = String(formData.get("eventType") || "").trim();
+    const budgetSummary = (customBudgetField?.value ? Number(customBudgetField.value).toLocaleString("en-IN") : "") || "";
+    const weddingDate = String(formData.get("eventDate") || "").trim();
 
-    const weddingDateDisplay = document.querySelector("#wedding-date-display");
+    if (!eventSummary) {
+      if (eventTypeInput) {
+        eventTypeInput.setCustomValidity("Please choose at least one event type.");
+        eventTypeInput.reportValidity();
+      }
+      if (formStatus) {
+        formStatus.hidden = false;
+        formStatus.style.color = "#9b1c1c";
+        formStatus.textContent = "Please select at least one event type.";
+      }
+      return;
+    }
+    eventTypeInput?.setCustomValidity("");
+
     if (!weddingDate) {
-      weddingDateDisplay?.setCustomValidity("Please choose an event date.");
-      weddingDateDisplay?.reportValidity();
+      const eventDateField = document.querySelector("#event-date");
+      eventDateField?.setCustomValidity("Please choose an event date.");
+      eventDateField?.reportValidity();
       if (formStatus) {
         formStatus.hidden = false;
         formStatus.style.color = "#9b1c1c";
@@ -432,7 +475,7 @@ if (contactForm) {
       }
       return;
     }
-    weddingDateDisplay?.setCustomValidity("");
+    document.querySelector("#event-date")?.setCustomValidity("");
 
     const inquiryMessage = [
       "New Event Query",
@@ -479,20 +522,13 @@ if (contactForm) {
         }
 
         contactForm.reset();
-        document.querySelector("#wedding-date-display")?.setCustomValidity("");
-        const weddingDateValue = document.querySelector("#wedding-date-value");
-        const eventTypeInput = document.querySelector("#event-type-input");
-        if (weddingDateValue) {
-          weddingDateValue.value = "";
-        }
-        if (eventTypeInput) {
-          eventTypeInput.value = "";
-        }
-        document.querySelector(".event-picker-value")?.replaceChildren(document.createTextNode("Click to choose"));
-        document.querySelectorAll(".event-option-input").forEach((checkbox) => {
-          checkbox.checked = false;
-          checkbox.closest(".event-option")?.classList.remove("is-selected");
+        selectedEventTypes = [];
+        updateEventTypeValue([]);
+        eventTypeOptions?.querySelectorAll("li").forEach((option) => {
+          option.classList.remove("is-selected");
+          option.setAttribute("aria-selected", "false");
         });
+        document.querySelector("#event-date")?.setCustomValidity("");
       } else {
         if (formStatus) {
           formStatus.hidden = false;
@@ -518,179 +554,6 @@ if (contactForm) {
   });
 }
 
-const datePicker = document.querySelector(".date-picker");
-
-if (datePicker) {
-  const dateDisplay = datePicker.querySelector("#wedding-date-display");
-  const dateValue = datePicker.querySelector("#wedding-date-value");
-  const popup = datePicker.querySelector(".date-picker-popup");
-  const title = datePicker.querySelector(".date-picker-title");
-  const grid = datePicker.querySelector(".date-grid");
-  const prevBtn = datePicker.querySelector('[data-direction="prev"]');
-  const nextBtn = datePicker.querySelector('[data-direction="next"]');
-  const clearBtn = datePicker.querySelector('[data-action="clear"]');
-  const todayBtn = datePicker.querySelector('[data-action="today"]');
-
-  const hasDatePickerParts =
-    dateDisplay &&
-    dateValue &&
-    popup &&
-    title &&
-    grid &&
-    prevBtn &&
-    nextBtn &&
-    clearBtn;
-
-  if (!hasDatePickerParts) {
-    // Missing expected date picker elements on this page.
-    // Skip wiring to avoid runtime errors.
-  } else {
-
-  const today = new Date();
-  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const minMonthDate = new Date(today.getFullYear(), today.getMonth(), 1);
-  let selectedDate = null;
-  let viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
-
-  const formatDisplayDate = (date) =>
-    date.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-
-  const formatValueDate = (date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
-  const isSameDate = (a, b) =>
-    a &&
-    b &&
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
-
-  const renderCalendar = () => {
-    prevBtn.disabled = viewDate <= minMonthDate;
-
-    title.textContent = viewDate.toLocaleDateString("en-US", {
-      month: "long",
-      year: "numeric",
-    });
-
-    grid.innerHTML = "";
-
-    const year = viewDate.getFullYear();
-    const month = viewDate.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const startDay = firstDay.getDay();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const daysInPrevMonth = new Date(year, month, 0).getDate();
-
-    for (let i = 0; i < 42; i += 1) {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "date-day";
-
-      let isOutsideMonth = false;
-      let cellDate;
-      if (i < startDay) {
-        cellDate = new Date(year, month - 1, daysInPrevMonth - startDay + i + 1);
-        isOutsideMonth = true;
-      } else if (i >= startDay + daysInMonth) {
-        cellDate = new Date(year, month + 1, i - startDay - daysInMonth + 1);
-        isOutsideMonth = true;
-      } else {
-        cellDate = new Date(year, month, i - startDay + 1);
-      }
-
-      if (isOutsideMonth) {
-        button.classList.add("is-hidden");
-        button.disabled = true;
-        grid.appendChild(button);
-        continue;
-      }
-
-      button.textContent = cellDate.getDate();
-
-      if (isSameDate(cellDate, today)) {
-        button.classList.add("is-today");
-      }
-
-      if (cellDate <= todayStart) {
-        button.classList.add("is-muted");
-        button.disabled = true;
-        grid.appendChild(button);
-        continue;
-      }
-
-      if (isSameDate(cellDate, selectedDate)) {
-        button.classList.add("is-selected");
-      }
-
-      button.addEventListener("click", () => {
-        selectedDate = cellDate;
-        viewDate = new Date(cellDate.getFullYear(), cellDate.getMonth(), 1);
-        dateDisplay.value = formatDisplayDate(cellDate);
-        dateValue.value = formatValueDate(cellDate);
-        popup.hidden = true;
-        renderCalendar();
-      });
-
-      grid.appendChild(button);
-    }
-  };
-
-  dateDisplay.addEventListener("click", () => {
-    popup.hidden = !popup.hidden;
-    if (!popup.hidden) {
-      renderCalendar();
-    }
-  });
-
-  prevBtn.addEventListener("click", () => {
-    if (viewDate <= minMonthDate) {
-      return;
-    }
-
-    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() - 1, 1);
-    renderCalendar();
-  });
-
-  nextBtn.addEventListener("click", () => {
-    viewDate = new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1);
-    renderCalendar();
-  });
-
-  clearBtn.addEventListener("click", () => {
-    selectedDate = null;
-    dateDisplay.value = "";
-    dateValue.value = "";
-    renderCalendar();
-  });
-
-  if (todayBtn) {
-    todayBtn.addEventListener("click", () => {
-      selectedDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-      viewDate = new Date(today.getFullYear(), today.getMonth(), 1);
-      dateDisplay.value = formatDisplayDate(selectedDate);
-      dateValue.value = formatValueDate(selectedDate);
-      renderCalendar();
-    });
-  }
-
-  document.addEventListener("click", (event) => {
-    if (!datePicker.contains(event.target)) {
-      popup.hidden = true;
-    }
-  });
-
-    renderCalendar();
-  }
-}
 
 const hangingColumns = Array.from(document.querySelectorAll(".hanging-column"));
 const columnPhotos = Array.from(document.querySelectorAll(".column-photo"));
@@ -1888,3 +1751,181 @@ if (countTargets.length > 0) {
     countTargets.forEach((target) => animateCount(target));
   }
 }
+
+
+/* -----------------------------------------------
+   PORTFOLIO MODAL GALLERY
+----------------------------------------------- */
+
+// Image arrays for each portfolio category
+const galleryImages = {
+  wedding: [
+    'images/portfolio-wedding-01.jpg',
+    'images/portfolio-wedding-02.jpg',
+    'images/portfolio-wedding-03.webp',
+    'images/portfolio-wedding-04.webp',
+    'images/portfolio-wedding-05.jpg',
+    'images/portfolio-wedding-06.webp',
+    'images/portfolio-wedding-07.webp'
+  ],
+  haldi: [
+    'images/portfolio-haldi-01.jpg',
+    'images/portfolio-haldi-02.jpg',
+    'images/portfolio-haldi-03.jpg',
+    'images/portfolio-haldi-04.jpg',
+    'images/portfolio-haldi-05.jpg',
+    'images/portfolio-haldi-06.jpg'
+  ],
+  prewedding: [
+    'images/portfolio-prewedding-01.webp',
+    'images/portfolio-prewedding-02.jpg',
+    'images/portfolio-prewedding-03.jpg',
+    'images/portfolio-prewedding-04.jpg',
+    'images/portfolio-prewedding-05.jpg',
+    'images/portfolio-prewedding-06.jpg'
+  ],
+  events: [
+    'images/portfolio-hanging-01.webp',
+    'images/portfolio-hanging-02.jpg',
+    'images/portfolio-hanging-03.jpg',
+    'images/portfolio-hanging-04.jpg',
+    'images/portfolio-hanging-05.jpg',
+    'images/portfolio-hanging-06.jpg',
+    'images/portfolio-hanging-07.jpg',
+    'images/portfolio-hanging-08.jpg',
+    'images/portfolio-hanging-09.jpg',
+    'images/portfolio-grid-04.jpg',
+    'images/portfolio-grid-05.jpg',
+    'images/portfolio-grid-06.jpg',
+    'images/portfolio-grid-7.jpg',
+    'images/portfolio-grid-8.jpg'
+  ]
+};
+
+const galleryTitles = {
+  wedding: 'Wedding Gallery',
+  haldi: 'Haldi Mehndi Gallery',
+  prewedding: 'Pre Wedding Gallery',
+  events: 'Other Events Gallery'
+};
+
+const modalElement = document.querySelector('.portfolio-modal');
+const modalBackdrop = document.querySelector('.portfolio-modal-backdrop');
+const modalContent = document.querySelector('.portfolio-modal-content');
+const modalImage = document.querySelector('.portfolio-modal-image');
+const modalClose = document.querySelector('.portfolio-modal-close');
+const modalPrev = document.querySelector('.portfolio-modal-prev');
+const modalNext = document.querySelector('.portfolio-modal-next');
+const modalCurrent = document.querySelector('.portfolio-modal-current');
+const modalTotal = document.querySelector('.portfolio-modal-total');
+
+let currentCategory = null;
+let currentImageIndex = 0;
+
+// Portfolio card click handler
+const portfolioCards = document.querySelectorAll('.portfolio-gallery-card');
+
+portfolioCards.forEach((card) => {
+  const openCardGallery = (event) => {
+    event.preventDefault();
+    const category = card.getAttribute('data-category');
+    openModal(category, 0);
+  };
+
+  card.addEventListener('click', openCardGallery);
+  card.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    openCardGallery(event);
+  });
+});
+
+function openModal(category, imageIndex = 0) {
+  if (!galleryImages[category] || !modalElement) return;
+
+  currentCategory = category;
+  currentImageIndex = imageIndex;
+
+  // Update modal content
+  updateModalImage();
+
+  // Show modal
+  if (modalElement) {
+    modalElement.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeModal() {
+  if (modalElement) {
+    modalElement.setAttribute('aria-hidden', 'true');
+  }
+  document.body.style.overflow = '';
+  currentCategory = null;
+  currentImageIndex = 0;
+}
+
+function updateModalImage() {
+  if (!currentCategory || !galleryImages[currentCategory]) return;
+
+  const images = galleryImages[currentCategory];
+  const totalImages = images.length;
+
+  // Wrap around
+  if (currentImageIndex >= totalImages) {
+    currentImageIndex = 0;
+  } else if (currentImageIndex < 0) {
+    currentImageIndex = totalImages - 1;
+  }
+
+  // Update image
+  if (modalImage) {
+    modalImage.src = images[currentImageIndex];
+    modalImage.alt = `${galleryTitles[currentCategory] || 'Portfolio gallery'} photo ${currentImageIndex + 1}`;
+  }
+
+  // Update counter
+  if (modalCurrent && modalTotal) {
+    modalCurrent.textContent = currentImageIndex + 1;
+    modalTotal.textContent = totalImages;
+  }
+}
+
+// Close button
+if (modalClose) {
+  modalClose.addEventListener('click', closeModal);
+}
+
+// Backdrop click to close
+if (modalBackdrop) {
+  modalBackdrop.addEventListener('click', closeModal);
+}
+
+// Navigation buttons
+if (modalPrev) {
+  modalPrev.addEventListener('click', () => {
+    currentImageIndex--;
+    updateModalImage();
+  });
+}
+
+if (modalNext) {
+  modalNext.addEventListener('click', () => {
+    currentImageIndex++;
+    updateModalImage();
+  });
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', (e) => {
+  if (!modalElement || modalElement.getAttribute('aria-hidden') === 'true') return;
+
+  if (e.key === 'ArrowLeft') {
+    currentImageIndex--;
+    updateModalImage();
+  } else if (e.key === 'ArrowRight') {
+    currentImageIndex++;
+    updateModalImage();
+  } else if (e.key === 'Escape') {
+    closeModal();
+  }
+});

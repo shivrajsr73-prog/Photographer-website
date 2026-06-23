@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=30">
 </head>
 <body class="about-page-body">
 <nav class="top-nav">
@@ -31,30 +31,12 @@
   </a>
   <div class="top-nav-links">
     <a href="index.html">Home</a>
-    <a href="contact.html">Contact Us</a>
     <a href="portfolio.html">Portfolio</a>
     <a href="about.html">About Us</a>
   </div>
 </nav>
 
 <section class="about-page" id="about">
-  <div class="about-shell">
-    <div class="about-hero">
-      <div class="about-hero-bg" aria-hidden="true"></div>
-      <div class="about-particles" aria-hidden="true">
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <div class="about-hero-content about-reveal">
-        <img src="images/logo.png" class="story-top-logo" alt="logo">
-        <p class="about-eyebrow">Our Story</p>
-        <h2 class="about-headline">Capturing wedding moments with warmth, detail, and heart.</h2>
-        <p class="about-subline">From intimate rituals to grand celebrations, every frame is planned to feel timeless and personal.</p>
-      </div>
-      <div class="about-scroll-hint" aria-hidden="true"><span></span></div>
-    </div>
-
     <div class="about-profile">
       <div class="about-profile-img-wrap about-reveal">
         <img src="images/about-profile.jpg" alt="Gaurav wedding photographer portrait" class="about-profile-img" loading="lazy">
@@ -79,11 +61,11 @@
         <p class="about-stat-label">Weddings Covered</p>
       </div>
       <div class="about-stat-card about-reveal">
-        <div class="about-stat-num-wrap"><span class="about-stat-num" data-target="5">0</span><span class="about-stat-plus">+</span></div>
+        <div class="about-stat-num-wrap"><span class="about-stat-num" data-target="12">0</span><span class="about-stat-plus">+</span></div>
         <p class="about-stat-label">Years Experience</p>
       </div>
       <div class="about-stat-card about-reveal">
-        <div class="about-stat-num-wrap"><span class="about-stat-num" data-target="1000">0</span><span class="about-stat-plus">+</span></div>
+        <div class="about-stat-num-wrap"><span class="about-stat-num" data-target="2000">0</span><span class="about-stat-plus">+</span></div>
         <p class="about-stat-label">Happy Clients</p>
       </div>
     </div>
@@ -91,23 +73,21 @@
     <div class="about-contact">
       <div class="about-contact-copy">
         <p class="about-eyebrow about-reveal">Get In Touch</p>
-        <h2 class="about-section-title about-reveal">Let's create your story with a calm and premium experience in Delhi and beyond.</h2>
+        <h2 class="about-section-title about-reveal">Let's create something beautiful together.</h2>
+        <p class="about-contact-intro about-reveal">Wedding photography crafted with elegance, emotion, and timeless storytelling.</p>
       </div>
       <div class="about-contact-cards">
         <div class="about-contact-card about-reveal">
-          <span class="about-contact-icon">Call</span>
-          <p class="about-contact-label">Phone</p>
-          <p class="about-contact-val">9625284323<br>8588070178</p>
+          <span class="about-contact-label">Call</span>
+          <p class="about-contact-val">+91 9625284323<br>+91 8588070178</p>
         </div>
         <div class="about-contact-card about-reveal">
-          <span class="about-contact-icon">Mail</span>
-          <p class="about-contact-label">Email</p>
+          <span class="about-contact-label">Email</span>
           <p class="about-contact-val">yourweddingdreamsstudio@gmail.com</p>
         </div>
         <div class="about-contact-card about-reveal">
-          <span class="about-contact-icon">Visit</span>
-          <p class="about-contact-label">Location</p>
-          <p class="about-contact-val">25, Foota Rd, Parvatiya Aanchal, Block B, Sant Nagar, Burari Delhi- 110084</p>
+          <span class="about-contact-label">Visit</span>
+          <p class="about-contact-val">25, Foota Rd, Parvatiya Anchal,<br>Block B, Sant Nagar,<br>Burari, Delhi - 110084</p>
         </div>
       </div>
     </div>
@@ -130,10 +110,60 @@
       </div>
     </div>
 
-    <div class="about-cta about-reveal">
-      <h2 class="about-cta-headline">Ready to plan your wedding story?</h2>
-      <p class="about-cta-sub">Tell us your date, event type, and vision. We will help shape something graceful and memorable.</p>
-      <a href="contact.html#booking-form" class="about-cta-btn">Book Your Story</a>
+    <div class="about-booking-section" id="booking-form">
+      <div class="about-booking-inner">
+        <div class="about-booking-copy about-reveal">
+          <h2>Ready to plan your wedding story?</h2>
+          <p>Tell us your date, event type, and vision. We will help shape something graceful and memorable.</p>
+        </div>
+        <form class="contact-form about-booking-form about-reveal" action="https://api.web3forms.com/submit" method="POST">
+          <div class="input-field">
+            <input name="name" type="text" placeholder="Your Name" autocomplete="name" required>
+          </div>
+          <div class="input-field">
+            <input name="email" type="email" placeholder="Email Address" autocomplete="email" required>
+          </div>
+          <div class="input-field">
+            <input name="phone" type="tel" placeholder="Phone Number" autocomplete="tel" required>
+          </div>
+          <div class="input-field">
+            <label class="budget-label" for="event-date">Event Date</label>
+            <input id="event-date" name="eventDate" type="date" required>
+          </div>
+          <div class="input-field">
+            <label id="event-type-label" class="budget-label" for="event-type-input">Type of Event</label>
+            <div class="multi-select" id="event-type-select" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="event-type-label">
+              <div class="multi-select-values" id="event-type-values" aria-live="polite" aria-atomic="true">
+                <span class="multi-select-placeholder">Select event type</span>
+              </div>
+              <button type="button" class="multi-select-toggle" aria-controls="event-type-options" aria-expanded="false" aria-label="Open event type list">Select event type</button>
+              <ul class="multi-select-options" id="event-type-options" role="listbox" hidden>
+                <li role="option" data-value="Wedding" tabindex="0" aria-selected="false">Wedding</li>
+                <li role="option" data-value="Pre Wedding" tabindex="0" aria-selected="false">Pre Wedding</li>
+                <li role="option" data-value="Engagement" tabindex="0" aria-selected="false">Engagement</li>
+                <li role="option" data-value="Reception" tabindex="0" aria-selected="false">Reception</li>
+                <li role="option" data-value="Birthday" tabindex="0" aria-selected="false">Birthday</li>
+                <li role="option" data-value="Corporate Event" tabindex="0" aria-selected="false">Corporate Event</li>
+                <li role="option" data-value="Baby Shower" tabindex="0" aria-selected="false">Baby Shower</li>
+                <li role="option" data-value="Maternity Shoot" tabindex="0" aria-selected="false">Maternity Shoot</li>
+                <li role="option" data-value="Fashion Shoot" tabindex="0" aria-selected="false">Fashion Shoot</li>
+                <li role="option" data-value="Other" tabindex="0" aria-selected="false">Other</li>
+              </ul>
+            </div>
+            <input type="hidden" id="event-type-input" name="eventType" required>
+          </div>
+          <div class="input-field">
+            <label class="budget-label" for="estimated-budget">Estimated Budget</label>
+            <input id="estimated-budget" class="custom-budget-input" name="budget" type="number" min="20000" max="500000" step="1000" placeholder="Enter budget (20,000 to 500,000)" required>
+          </div>
+          <input type="hidden" name="access_key" value="92bbefd2-9f1e-48f2-a477-6cb4fd851470">
+          <input type="hidden" name="subject" value="New Photography Booking Inquiry">
+          <input type="hidden" name="from_name" value="Photography Portfolio Website">
+          <input id="inquiry-message-input" type="hidden" name="message">
+          <button type="submit">Send Inquiry</button>
+          <p class="contact-form-status" role="status" aria-live="polite" hidden></p>
+        </form>
+      </div>
     </div>
 
     <div class="about-social about-reveal">
@@ -143,10 +173,10 @@
         <a href="https://www.instagram.com/your.wedding.dreams/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="about-social-link"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
         <a href="https://www.facebook.com/weddingdreams.2468/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="about-social-link"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
         <a href="https://www.youtube.com/@your.wedding.dreams" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="about-social-link"><i class="fa-brands fa-youtube" aria-hidden="true"></i></a>
-        <a href="#" aria-label="WhatsApp" class="about-social-link"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
+        <a href="https://wa.me/919625284323" target="_blank" rel="noopener noreferrer" aria-label="Open WhatsApp chat with Your Wedding Dreams" class="about-social-link"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
       </div>
     </div>
-  </div>
+
 </section>
 
 <div class="lightbox" hidden>
