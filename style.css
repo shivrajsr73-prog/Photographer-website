@@ -864,6 +864,16 @@ body.contact-page .contact-points span {
   overflow-y: auto;
 }
 
+.multi-select-options[hidden] {
+  display: none;
+}
+
+.multi-select-selected {
+  color: #2a1b0b;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
 .multi-select-options li {
   padding: 12px 16px;
   border-radius: 14px;
@@ -4810,11 +4820,11 @@ body.about-page-body {
   box-shadow: 0 14px 28px rgba(214, 36, 159, 0.22);
 }
 
-.about-social-link[aria-label="WhatsApp"] {
-  color: #fff;
-  background: linear-gradient(135deg, #25d366, #128c7e);
-  border-color: rgba(18, 140, 126, 0.24);
-  box-shadow: 0 14px 28px rgba(18, 140, 126, 0.2);
+.about-social-link[aria-label*="WhatsApp"] {
+  color: #25D366;
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(37, 211, 102, 0.28);
+  box-shadow: 0 14px 28px rgba(37, 211, 102, 0.14);
 }
 
 .about-social-link[aria-label="Facebook"] {
@@ -4847,9 +4857,11 @@ body.about-page-body {
   box-shadow: 0 18px 34px rgba(214, 36, 159, 0.3);
 }
 
-.about-social-link[aria-label="WhatsApp"]:hover {
-  background: linear-gradient(135deg, #2ee66b, #128c7e);
-  box-shadow: 0 18px 34px rgba(18, 140, 126, 0.28);
+.about-social-link[aria-label*="WhatsApp"]:hover {
+  color: #25D366;
+  background: #fff;
+  transform: translateY(-5px) scale(1.04);
+  box-shadow: 0 18px 34px rgba(37, 211, 102, 0.22);
 }
 
 .about-social-link[aria-label="Facebook"]:hover {
@@ -6150,10 +6162,10 @@ body.contact-page .hero-booking-wrap {
 .portfolio-hero {
   position: relative;
   isolation: isolate;
-  min-height: clamp(420px, 58vh, 620px);
+  min-height: clamp(390px, 53vh, 570px);
   display: grid;
   place-items: center;
-  padding: clamp(112px, 12vw, 150px) clamp(22px, 6vw, 90px) clamp(80px, 9vw, 124px);
+  padding: clamp(88px, 9vw, 124px) clamp(22px, 6vw, 90px) clamp(74px, 8vw, 112px);
   overflow: hidden;
   text-align: center;
   background:
@@ -6198,7 +6210,7 @@ body.contact-page .hero-booking-wrap {
   max-width: 880px;
   margin: 0 auto 22px;
   font-family: 'Playfair Display', serif;
-  font-size: clamp(2.8rem, 7vw, 6.8rem);
+  font-size: clamp(2.42rem, 6.1vw, 5.9rem);
   font-weight: 700;
   line-height: 0.98;
   letter-spacing: -0.015em;
@@ -6308,7 +6320,7 @@ body.contact-page .hero-booking-wrap {
 @media (max-width: 768px) {
   .portfolio-hero {
     min-height: auto;
-    padding: 106px 18px 74px;
+    padding: 88px 18px 66px;
   }
 
   .portfolio-hero::before {
@@ -6317,7 +6329,7 @@ body.contact-page .hero-booking-wrap {
   }
 
   .portfolio-hero h1 {
-    font-size: clamp(2.25rem, 12vw, 4rem);
+    font-size: clamp(2rem, 10.4vw, 3.45rem);
   }
 
   .portfolio-hero-meta {

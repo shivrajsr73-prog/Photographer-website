@@ -280,11 +280,13 @@ const toggleEventTypeOptions = (show) => {
   eventTypeOptions.hidden = !isOpen;
   eventTypeSelect.setAttribute("aria-expanded", String(isOpen));
   eventTypeToggle.setAttribute("aria-expanded", String(isOpen));
+  eventTypeToggle.textContent = isOpen ? "Choose event type" : (eventTypeInput?.value || "Select event type");
 };
 
 const updateEventTypeValue = (selectedValues) => {
   if (!eventTypeInput || !eventTypeValues) return;
-  eventTypeInput.value = selectedValues.join(", ");
+  const selectedValue = selectedValues[0] || "";
+  eventTypeInput.value = selectedValue;
   const hasValue = selectedValues.length > 0;
   eventTypeValues.innerHTML = "";
 
@@ -293,67 +295,45 @@ const updateEventTypeValue = (selectedValues) => {
     placeholder.className = "multi-select-placeholder";
     placeholder.textContent = "Select event type";
     eventTypeValues.appendChild(placeholder);
+    if (eventTypeToggle) {
+      eventTypeToggle.textContent = "Select event type";
+    }
     return;
   }
 
-  selectedValues.forEach((value) => {
-    const chip = document.createElement("span");
-    chip.className = "multi-select-chip";
-    chip.textContent = value;
-
-    const removeButton = document.createElement("button");
-    removeButton.type = "button";
-    removeButton.setAttribute("aria-label", `Remove ${value}`);
-    removeButton.textContent = "×";
-    removeButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      const option = Array.from(eventTypeOptions.querySelectorAll("li")).find((item) => item.dataset.value === value);
-      if (option) {
-        option.classList.remove("is-selected");
-        option.setAttribute("aria-selected", "false");
-      }
-      const remaining = selectedValues.filter((item) => item !== value);
-      selectedEventTypes = remaining;
-      updateEventTypeValue(remaining);
-    });
-
-    chip.appendChild(removeButton);
-    eventTypeValues.appendChild(chip);
-  });
+  const selectedLabel = document.createElement("span");
+  selectedLabel.className = "multi-select-selected";
+  selectedLabel.textContent = selectedValue;
+  eventTypeValues.appendChild(selectedLabel);
+  if (eventTypeToggle) {
+    eventTypeToggle.textContent = selectedValue;
+  }
 };
 
 let selectedEventTypes = [];
 
 if (eventTypeToggle && eventTypeOptions && eventTypeSelect) {
-  eventTypeToggle.addEventListener("click", () => {
-    toggleEventTypeOptions();
-  });
-
   eventTypeOptions.querySelectorAll("li").forEach((option) => {
-    const toggleOption = (event) => {
+    const selectOption = (event) => {
       if (event) {
         event.stopPropagation();
       }
       const optionValue = option.dataset.value;
-      const index = selectedEventTypes.indexOf(optionValue);
-      if (index === -1) {
-        selectedEventTypes.push(optionValue);
-        option.classList.add("is-selected");
-        option.setAttribute("aria-selected", "true");
-      } else {
-        selectedEventTypes.splice(index, 1);
-        option.classList.remove("is-selected");
-        option.setAttribute("aria-selected", "false");
-      }
+      selectedEventTypes = [optionValue];
+      eventTypeOptions.querySelectorAll("li").forEach((item) => {
+        const isSelected = item === option;
+        item.classList.toggle("is-selected", isSelected);
+        item.setAttribute("aria-selected", String(isSelected));
+      });
       updateEventTypeValue(selectedEventTypes);
-      toggleEventTypeOptions(true);
+      toggleEventTypeOptions(false);
     };
 
-    option.addEventListener("click", (event) => toggleOption(event));
+    option.addEventListener("click", (event) => selectOption(event));
     option.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
-        toggleOption(event);
+        selectOption(event);
       }
     });
   });
@@ -452,13 +432,13 @@ if (contactForm) {
 
     if (!eventSummary) {
       if (eventTypeInput) {
-        eventTypeInput.setCustomValidity("Please choose at least one event type.");
+        eventTypeInput.setCustomValidity("Please choose an event type.");
         eventTypeInput.reportValidity();
       }
       if (formStatus) {
         formStatus.hidden = false;
         formStatus.style.color = "#9b1c1c";
-        formStatus.textContent = "Please select at least one event type.";
+        formStatus.textContent = "Please select an event type.";
       }
       return;
     }

@@ -1,0 +1,22 @@
+{
+  "name": "Your Wedding Dreams",
+  "short_name": "Wedding Dreams",
+  "description": "Delhi wedding photography studio for elegant wedding photography, cinematic films, pre-wedding shoots, and family celebrations.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fffaf1",
+  "theme_color": "#f8efdf",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
